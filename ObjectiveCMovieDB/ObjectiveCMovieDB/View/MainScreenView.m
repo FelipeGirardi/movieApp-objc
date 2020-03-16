@@ -7,3 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MainScreenView.h"
+
+
+@interface MainScreenView ()
+
+@end
+
+
+@implementation MainScreenView
+
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    
+}
+
+@end
+

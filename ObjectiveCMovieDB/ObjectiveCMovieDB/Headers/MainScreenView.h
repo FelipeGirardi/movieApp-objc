@@ -6,8 +6,13 @@
 //  Copyright © 2020 Henrique Figueiredo Conte. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #ifndef MainScreenView_h
 #define MainScreenView_h
 
 
 #endif /* MainScreenView_h */
+
+@interface MainScreenView : UIViewController
+
+@end
