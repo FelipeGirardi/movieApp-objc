@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		805E15E424200554007A9DC4 /* MainScreenStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 805E15E324200554007A9DC4 /* MainScreenStoryboard.storyboard */; };
 		805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 805E15E9242005B9007A9DC4 /* MainScreenView.m */; };
+		805E15EC24200EF6007A9DC4 /* MoviesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 805E15EB24200EF6007A9DC4 /* MoviesTableCell.m */; };
 		80879F38241FF977006B5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F37241FF977006B5BBD /* AppDelegate.m */; };
 		80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3A241FF977006B5BBD /* SceneDelegate.m */; };
 		80879F3E241FF977006B5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3D241FF977006B5BBD /* ViewController.m */; };
@@ -22,6 +23,8 @@
 		805E15E224200518007A9DC4 /* MainScreenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreenView.h; sourceTree = "<group>"; };
 		805E15E324200554007A9DC4 /* MainScreenStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainScreenStoryboard.storyboard; sourceTree = "<group>"; };
 		805E15E9242005B9007A9DC4 /* MainScreenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainScreenView.m; sourceTree = "<group>"; };
+		805E15EB24200EF6007A9DC4 /* MoviesTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesTableCell.m; sourceTree = "<group>"; };
+		805E15ED24200F6B007A9DC4 /* MoviesTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MoviesTableCell.h; path = ../Model/MoviesTableCell.h; sourceTree = "<group>"; };
 		80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectiveCMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80879F36241FF977006B5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80879F37241FF977006B5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		805E15E72420056E007A9DC4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				805E15ED24200F6B007A9DC4 /* MoviesTableCell.h */,
 				805E15E224200518007A9DC4 /* MainScreenView.h */,
 			);
 			path = Headers;
@@ -81,6 +85,7 @@
 		805E15E824200576007A9DC4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				805E15EB24200EF6007A9DC4 /* MoviesTableCell.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,6 +205,7 @@
 				80879F49241FF979006B5BBD /* main.m in Sources */,
 				805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */,
 				80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */,
+				805E15EC24200EF6007A9DC4 /* MoviesTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

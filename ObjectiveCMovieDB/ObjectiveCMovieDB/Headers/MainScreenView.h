@@ -13,6 +13,8 @@
 
 #endif /* MainScreenView_h */
 
-@interface MainScreenView : UIViewController
+@interface MainScreenView : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *moviesTableView;
 
 @end
