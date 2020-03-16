@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		805E15E424200554007A9DC4 /* MainScreenStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 805E15E324200554007A9DC4 /* MainScreenStoryboard.storyboard */; };
+		805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 805E15E9242005B9007A9DC4 /* MainScreenView.m */; };
 		80879F38241FF977006B5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F37241FF977006B5BBD /* AppDelegate.m */; };
 		80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3A241FF977006B5BBD /* SceneDelegate.m */; };
 		80879F3E241FF977006B5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3D241FF977006B5BBD /* ViewController.m */; };
@@ -17,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		805E15E224200518007A9DC4 /* MainScreenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreenView.h; sourceTree = "<group>"; };
+		805E15E324200554007A9DC4 /* MainScreenStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainScreenStoryboard.storyboard; sourceTree = "<group>"; };
+		805E15E9242005B9007A9DC4 /* MainScreenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainScreenView.m; sourceTree = "<group>"; };
 		80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectiveCMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80879F36241FF977006B5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80879F37241FF977006B5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -42,6 +47,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		805E15DF242002F2007A9DC4 /* MainScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		805E15E52420055D007A9DC4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				805E15E324200554007A9DC4 /* MainScreenStoryboard.storyboard */,
+				805E15E9242005B9007A9DC4 /* MainScreenView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		805E15E624200562007A9DC4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		805E15E72420056E007A9DC4 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				805E15E224200518007A9DC4 /* MainScreenView.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		805E15E824200576007A9DC4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		80879F2A241FF977006B5BBD = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +104,11 @@
 		80879F35241FF977006B5BBD /* ObjectiveCMovieDB */ = {
 			isa = PBXGroup;
 			children = (
+				805E15E824200576007A9DC4 /* Model */,
+				805E15E72420056E007A9DC4 /* Headers */,
+				805E15E624200562007A9DC4 /* Network */,
+				805E15E52420055D007A9DC4 /* View */,
+				805E15DF242002F2007A9DC4 /* MainScreen */,
 				80879F36241FF977006B5BBD /* AppDelegate.h */,
 				80879F37241FF977006B5BBD /* AppDelegate.m */,
 				80879F39241FF977006B5BBD /* SceneDelegate.h */,
@@ -133,6 +181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805E15E424200554007A9DC4 /* MainScreenStoryboard.storyboard in Resources */,
 				80879F46241FF979006B5BBD /* LaunchScreen.storyboard in Resources */,
 				80879F43241FF979006B5BBD /* Assets.xcassets in Resources */,
 				80879F41241FF977006B5BBD /* Main.storyboard in Resources */,
@@ -149,6 +198,7 @@
 				80879F3E241FF977006B5BBD /* ViewController.m in Sources */,
 				80879F38241FF977006B5BBD /* AppDelegate.m in Sources */,
 				80879F49241FF979006B5BBD /* main.m in Sources */,
+				805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */,
 				80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
