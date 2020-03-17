@@ -26,8 +26,7 @@
     
     _moviesTableView.delegate = self;
     _moviesTableView.dataSource = self;
-    _moviesTableView.sectionHeaderHeight = 40;
-    
+    _moviesTableView.sectionHeaderHeight = 50;
     
     [self setNavigationBar];
 }
@@ -71,9 +70,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    UIView *sectionView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, _moviesTableView.frame.size.width, 40)];
+    UIView *sectionView =  [[UIView alloc] initWithFrame:CGRectMake(0, 0, _moviesTableView.frame.size.width, 20)];
     
-    UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, _moviesTableView.frame.size.width, 25)];
+    UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, _moviesTableView.frame.size.width, 25)];
     
     NSString *title = @"Movies";
     
