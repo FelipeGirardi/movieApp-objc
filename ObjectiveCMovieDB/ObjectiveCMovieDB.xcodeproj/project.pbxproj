@@ -53,6 +53,10 @@
 		805E15DF242002F2007A9DC4 /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
+				805E15E824200576007A9DC4 /* Model */,
+				805E15E72420056E007A9DC4 /* Headers */,
+				805E15E624200562007A9DC4 /* Network */,
+				805E15E52420055D007A9DC4 /* View */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -90,6 +94,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		805E15F024214664007A9DC4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		80879F2A241FF977006B5BBD = {
 			isa = PBXGroup;
 			children = (
@@ -109,10 +120,7 @@
 		80879F35241FF977006B5BBD /* ObjectiveCMovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				805E15E824200576007A9DC4 /* Model */,
-				805E15E72420056E007A9DC4 /* Headers */,
-				805E15E624200562007A9DC4 /* Network */,
-				805E15E52420055D007A9DC4 /* View */,
+				805E15F024214664007A9DC4 /* Fonts */,
 				805E15DF242002F2007A9DC4 /* MainScreen */,
 				80879F36241FF977006B5BBD /* AppDelegate.h */,
 				80879F37241FF977006B5BBD /* AppDelegate.m */,
