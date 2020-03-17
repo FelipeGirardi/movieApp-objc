@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "MainScreenView.h"
 #import "MoviesTableCell.h"
+#import "MainScreenNetwork.h"
+
 
 @interface MainScreenView ()
 
@@ -21,14 +23,28 @@
 
 @synthesize moviesTableView = _moviesTableView;
 
+MainScreenNetwork *network = nil;
+
+
 - (void) viewDidLoad {
     [super viewDidLoad];
-    
+
     _moviesTableView.delegate = self;
     _moviesTableView.dataSource = self;
     _moviesTableView.sectionHeaderHeight = 50;
     
     [self setNavigationBar];
+    
+    network = MainScreenNetwork.instantiateNetwork;
+    
+}
+
++ (MainScreenNetwork *) networkSegment {
+    if (network == nil) {
+        network = [[MainScreenNetwork alloc] init];
+    }
+    
+    return network;
 }
 
 - (void) setNavigationBar {

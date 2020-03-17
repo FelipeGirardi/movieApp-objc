@@ -17,6 +17,7 @@
 		80879F43241FF979006B5BBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80879F42241FF979006B5BBD /* Assets.xcassets */; };
 		80879F46241FF979006B5BBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80879F44241FF979006B5BBD /* LaunchScreen.storyboard */; };
 		80879F49241FF979006B5BBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F48241FF979006B5BBD /* main.m */; };
+		808D65F3242157BF0086759B /* MainScreenNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 808D65F2242157BF0086759B /* MainScreenNetwork.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		80879F45241FF979006B5BBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80879F47241FF979006B5BBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80879F48241FF979006B5BBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		808D65F2242157BF0086759B /* MainScreenNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainScreenNetwork.m; sourceTree = "<group>"; };
+		808D65F4242157D10086759B /* MainScreenNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreenNetwork.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,7 @@
 		805E15E624200562007A9DC4 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				808D65F2242157BF0086759B /* MainScreenNetwork.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -82,6 +86,7 @@
 			children = (
 				805E15ED24200F6B007A9DC4 /* MoviesTableCell.h */,
 				805E15E224200518007A9DC4 /* MainScreenView.h */,
+				808D65F4242157D10086759B /* MainScreenNetwork.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -92,13 +97,6 @@
 				805E15EB24200EF6007A9DC4 /* MoviesTableCell.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		805E15F024214664007A9DC4 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		80879F2A241FF977006B5BBD = {
@@ -120,7 +118,6 @@
 		80879F35241FF977006B5BBD /* ObjectiveCMovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				805E15F024214664007A9DC4 /* Fonts */,
 				805E15DF242002F2007A9DC4 /* MainScreen */,
 				80879F36241FF977006B5BBD /* AppDelegate.h */,
 				80879F37241FF977006B5BBD /* AppDelegate.m */,
@@ -214,6 +211,7 @@
 				805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */,
 				80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */,
 				805E15EC24200EF6007A9DC4 /* MoviesTableCell.m in Sources */,
+				808D65F3242157BF0086759B /* MainScreenNetwork.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
