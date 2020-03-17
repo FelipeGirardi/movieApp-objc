@@ -10,7 +10,7 @@
         <!--Movie Details-->
         <scene sceneID="DYd-nF-OGf">
             <objects>
-                <viewController title="Movie Details" modalPresentationStyle="fullScreen" id="LQ9-Dk-sZp" customClass="MovieDetailsViewController" customModule="ObjectiveCMovieDB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Movie Details" modalPresentationStyle="fullScreen" id="LQ9-Dk-sZp" customClass="MovieDetailsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="31c-ks-sBA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,8 +62,8 @@
                                     <constraint firstAttribute="width" constant="184" id="PHw-wb-fQB"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="MIU-ym-kwf">
-                                <rect key="frame" x="21" y="230" width="373" height="537"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="MIU-ym-kwf">
+                                <rect key="frame" x="26" y="230" width="368" height="537"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Su-7H-lOO">
                                         <rect key="frame" x="0.0" y="0.0" width="63" height="17"/>
@@ -72,7 +72,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRP-u4-GiZ">
-                                        <rect key="frame" x="0.0" y="25" width="373" height="512"/>
+                                        <rect key="frame" x="0.0" y="29" width="368" height="508"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <mutableString key="text">Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. \n\nWith help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. \n\nThe battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his. \n\nSimba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.</mutableString>
                                         <color key="textColor" red="0.51000000000000001" green="0.51000000000000001" blue="0.51000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -88,7 +88,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="DgL-lo-EbT" firstAttribute="leading" secondItem="TuU-Rz-lHY" secondAttribute="leading" constant="21" id="005-j8-ZRH"/>
-                            <constraint firstItem="MIU-ym-kwf" firstAttribute="leading" secondItem="TuU-Rz-lHY" secondAttribute="leading" constant="21" id="5cl-gJ-VsN"/>
+                            <constraint firstItem="MIU-ym-kwf" firstAttribute="leading" secondItem="TuU-Rz-lHY" secondAttribute="leading" constant="26" id="5cl-gJ-VsN"/>
                             <constraint firstItem="Efo-A9-YLB" firstAttribute="top" secondItem="TuU-Rz-lHY" secondAttribute="top" constant="103" id="AVk-Ol-swa"/>
                             <constraint firstItem="MIU-ym-kwf" firstAttribute="trailing" secondItem="31c-ks-sBA" secondAttribute="trailingMargin" id="KKh-pU-ard"/>
                             <constraint firstItem="TuU-Rz-lHY" firstAttribute="bottom" secondItem="MIU-ym-kwf" secondAttribute="bottom" constant="7" id="OTw-NJ-a8w"/>
@@ -100,6 +100,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Movie Details" id="caj-dA-KRb"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="genreLabel" destination="OTk-ZU-HAQ" id="p62-iO-gDu"/>
+                        <outlet property="overviewLabel" destination="3Su-7H-lOO" id="pzL-s6-Vqw"/>
+                        <outlet property="overviewTextView" destination="bRP-u4-GiZ" id="Szh-F2-Wxg"/>
+                        <outlet property="posterImageView" destination="DgL-lo-EbT" id="YU1-Wu-KdO"/>
+                        <outlet property="ratingLabel" destination="xJ7-8I-QsN" id="qAn-OR-O9U"/>
+                        <outlet property="starImageView" destination="0ba-cL-rEy" id="Gjg-ms-vef"/>
+                        <outlet property="titleLabel" destination="LKs-Gb-FVV" id="oek-o7-4wQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s2H-Xs-94o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
