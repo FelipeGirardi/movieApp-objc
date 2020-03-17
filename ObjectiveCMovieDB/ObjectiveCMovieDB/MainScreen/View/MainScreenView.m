@@ -37,14 +37,7 @@ MainScreenNetwork *network = nil;
     
     network = MainScreenNetwork.instantiateNetwork;
     
-}
-
-+ (MainScreenNetwork *) networkSegment {
-    if (network == nil) {
-        network = [[MainScreenNetwork alloc] init];
-    }
-    
-    return network;
+    [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e"];
 }
 
 - (void) setNavigationBar {
