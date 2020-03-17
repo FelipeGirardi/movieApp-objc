@@ -18,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *overviewLabel;
 @property (weak, nonatomic) IBOutlet UITextView *overviewTextView;
 
+// Método pra requisição de API que busca um filme pelo ID (esse método vai ficar na classe de Data Service/API)
+- (void) exampleFetchMovieByID: (int) id;
+
 @end
 
 @implementation MovieDetailsViewController
@@ -26,9 +29,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _overviewTextView.textContainerInset = UIEdgeInsetsMake(0, -5, 0, 0);
+    
+    //[self exampleFetchMovieByID: 2];
+    
 }
 
-
+- (void) exampleFetchMovieByID: (int) id {
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        NSString *urlString = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%d?api_key=fb61737ab2cdee1c07a947778f249e7d&language=en-US", id];
+        [request setURL:[NSURL URLWithString: urlString]];
+        [request setHTTPMethod:@"GET"];
+    
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+            NSLog(@"Request reply: %@", requestReply);
+        }] resume];
+}
 
 
 @end
