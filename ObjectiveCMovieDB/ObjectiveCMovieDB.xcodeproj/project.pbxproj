@@ -18,6 +18,7 @@
 		80879F46241FF979006B5BBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80879F44241FF979006B5BBD /* LaunchScreen.storyboard */; };
 		80879F49241FF979006B5BBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F48241FF979006B5BBD /* main.m */; };
 		808D65F3242157BF0086759B /* MainScreenNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 808D65F2242157BF0086759B /* MainScreenNetwork.m */; };
+		808D65F6242294370086759B /* MoviesList.m in Sources */ = {isa = PBXBuildFile; fileRef = 808D65F5242294370086759B /* MoviesList.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,8 @@
 		80879F48241FF979006B5BBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		808D65F2242157BF0086759B /* MainScreenNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainScreenNetwork.m; sourceTree = "<group>"; };
 		808D65F4242157D10086759B /* MainScreenNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreenNetwork.h; sourceTree = "<group>"; };
+		808D65F5242294370086759B /* MoviesList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesList.m; sourceTree = "<group>"; };
+		808D65F7242294520086759B /* MoviesList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesList.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,7 @@
 				805E15ED24200F6B007A9DC4 /* MoviesTableCell.h */,
 				805E15E224200518007A9DC4 /* MainScreenView.h */,
 				808D65F4242157D10086759B /* MainScreenNetwork.h */,
+				808D65F7242294520086759B /* MoviesList.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -95,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				805E15EB24200EF6007A9DC4 /* MoviesTableCell.m */,
+				808D65F5242294370086759B /* MoviesList.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				80879F38241FF977006B5BBD /* AppDelegate.m in Sources */,
 				80879F49241FF979006B5BBD /* main.m in Sources */,
 				805E15EA242005B9007A9DC4 /* MainScreenView.m in Sources */,
+				808D65F6242294370086759B /* MoviesList.m in Sources */,
 				80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */,
 				805E15EC24200EF6007A9DC4 /* MoviesTableCell.m in Sources */,
 				808D65F3242157BF0086759B /* MainScreenNetwork.m in Sources */,

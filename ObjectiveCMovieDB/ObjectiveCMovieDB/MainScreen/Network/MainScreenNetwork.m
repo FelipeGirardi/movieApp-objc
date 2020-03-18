@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MainScreenNetwork.h"
-
+#import "MoviesList.h"
 
 
 @interface MainScreenNetwork ()
@@ -44,7 +44,27 @@
                                                               NSURLResponse *response,
                                                               NSError * error) {
         if (error == nil) {
-            printf("a");
+            
+            NSMutableDictionary *jsonData = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &error];
+            
+            
+            NSMutableArray *popularMoviesList = [NSMutableArray array];
+            
+            //NSString *movieName = [jsonData objectForKey: @"page"];
+            NSArray *moviesDataArray = [jsonData objectForKey: @"results"];
+            
+            for (NSDictionary * movie in moviesDataArray) {
+                
+                MainScreenMovie *popularMovie = [MainScreenMovie alloc];
+            
+                popularMovie = [popularMovie initMovie: [movie objectForKey:@"title"]
+                               overview: [movie objectForKey:@"overview"]
+                             posterPath: [movie objectForKey:@"poster_path"]
+                            voteAverage: [movie objectForKey:@"vote_average"]];
+                
+                [popularMoviesList addObject: popularMovie];
+            }
+    
         }
         
     }] resume];
