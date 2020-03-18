@@ -20,9 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *overviewLabel;
 @property (weak, nonatomic) IBOutlet UITextView *overviewTextView;
 
-@property (weak, nonatomic) QTMovieDetails *movieDetails;
-
-- (void) updateMovieDetailsUI;
+// Function to update movie details UI
+- (void) updateMovieDetailsUI: (QTMovieDetails*) movieDetails;
 
 @end
 
@@ -33,23 +32,41 @@
     
     // Do any additional setup after loading the view.
     _overviewTextView.textContainerInset = UIEdgeInsetsMake(0, -5, 0, 0);
+    _posterImageView.layer.cornerRadius = 10.0;
     
-    // Call API request for movie details and store them in self.movieDetails
-    [MovieDetailsAPIRequest fetchMovieByID: 2 completeBlock:^(QTMovieDetails * movieDetails){
-        self.movieDetails = movieDetails;
-        
+    // Call API request for movie details and store them in self.movieDetails (uncomment for request)
+    
+//    [MovieDetailsAPIRequest fetchMovieByID: 2 completeBlock:^(QTMovieDetails * movieDetails){
+//
+//        __weak typeof(self) weakSelf = self;
 //        dispatch_async(dispatch_get_main_queue(), ^(void){
-//            [self updateMovieDetailsUI];
+//            [weakSelf updateMovieDetailsUI: movieDetails];
 //        });
-    }];
+//    }];
     
 }
 
-- (void) updateMovieDetailsUI {
-//    self.titleLabel.text = self.movieDetails.title;
-//    self.genreLabel.text = self.movieDetails.genres[0].name;
-//    self.ratingLabel.text = self.movieDetails.voteAverage.stringValue;
-//    self.overviewTextView.text = self.movieDetails.overview;
+- (void) updateMovieDetailsUI: (QTMovieDetails*) movieDetails {
+    
+    // Get poster URL image
+    NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", movieDetails.posterPath];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+    self.posterImageView.image = [UIImage imageWithData: posterImageData];
+    
+    self.titleLabel.text = movieDetails.title;
+    
+    // Format genre string
+    NSString *genresString = @"";
+    for(int i=0; i<movieDetails.genres.count-1; i++) {
+        NSString *tempGenreString = [NSString stringWithFormat: @"%@%s", movieDetails.genres[i].name, ", "];
+        genresString = [genresString stringByAppendingString: tempGenreString];
+    }
+    genresString = [genresString stringByAppendingString: movieDetails.genres[movieDetails.genres.count-1].name];
+    self.genreLabel.text = genresString;
+    
+    self.ratingLabel.text = movieDetails.voteAverage.stringValue;
+    self.overviewTextView.text = movieDetails.overview;
 }
 
 @end
