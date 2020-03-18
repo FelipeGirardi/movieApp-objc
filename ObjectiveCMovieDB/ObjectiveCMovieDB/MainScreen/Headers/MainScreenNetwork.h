@@ -14,7 +14,7 @@
 
 @interface MainScreenNetwork: NSObject
 
-- (NSMutableArray *) getDataFrom: (NSString *) url;
+- (void) getDataFrom: (NSString *) url completion: (void(^)(NSMutableArray * moviesList)) callback;
 
 + (instancetype) instantiateNetwork;
 

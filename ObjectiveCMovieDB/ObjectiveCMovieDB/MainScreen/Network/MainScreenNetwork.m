@@ -32,10 +32,11 @@
 }
 
 
-- (NSMutableArray *) getDataFrom: (NSString *) url {
+- (void) getDataFrom: (NSString *) url completion: (void(^) (NSMutableArray * moviesList)) callback {
     
     NSMutableArray *popularMoviesList = [NSMutableArray array];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
     [request setHTTPMethod:@"GET"];
     [request setURL: [NSURL URLWithString: url]];
     
@@ -48,26 +49,24 @@
             
             NSMutableDictionary *jsonData = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &error];
             
-            //NSString *movieName = [jsonData objectForKey: @"page"];
             NSArray *moviesDataArray = [jsonData objectForKey: @"results"];
             
             for (NSDictionary * movie in moviesDataArray) {
                 
-                MainScreenMovie *popularMovie = [MainScreenMovie alloc];
-            
-                popularMovie = [popularMovie initMovie: [movie objectForKey:@"title"]
-                               overview: [movie objectForKey:@"overview"]
-                             posterPath: [movie objectForKey:@"poster_path"]
-                            voteAverage: [movie objectForKey:@"vote_average"]];
+                MainScreenMovie *popularMovie = [[MainScreenMovie alloc] initMovie: [movie objectForKey:@"title"]
+                                                                          overview: [movie objectForKey:@"overview"]
+                                                                        posterPath: [movie objectForKey:@"poster_path"]
+                                                                       voteAverage: [movie objectForKey:@"vote_average"]];
                 
                 [popularMoviesList addObject: popularMovie];
             }
-    
+            
+            callback(popularMoviesList);
         }
         
     }] resume];
     
-    return popularMoviesList;
+    
 }
 
 @end
