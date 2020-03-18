@@ -14,7 +14,7 @@
 
 @interface MainScreenNetwork: NSObject
 
-- (NSString *) getDataFrom: (NSString *) url;
+- (NSMutableArray *) getDataFrom: (NSString *) url;
 
 + (instancetype) instantiateNetwork;
 

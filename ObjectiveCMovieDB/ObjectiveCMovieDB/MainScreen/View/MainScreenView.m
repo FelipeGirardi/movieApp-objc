@@ -10,6 +10,7 @@
 #import "MainScreenView.h"
 #import "MoviesTableCell.h"
 #import "MainScreenNetwork.h"
+#import "MoviesList.h"
 
 
 @interface MainScreenView ()
@@ -24,7 +25,7 @@
 @synthesize moviesTableView = _moviesTableView;
 
 MainScreenNetwork *network = nil;
-
+NSMutableArray *popularMovies = nil;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -37,7 +38,12 @@ MainScreenNetwork *network = nil;
     
     network = MainScreenNetwork.instantiateNetwork;
     
-    [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e"];
+    popularMovies = [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e"];
+    
+    for (MainScreenMovie * movie in popularMovies) {
+        printf("");
+    }
+    
 }
 
 - (void) setNavigationBar {

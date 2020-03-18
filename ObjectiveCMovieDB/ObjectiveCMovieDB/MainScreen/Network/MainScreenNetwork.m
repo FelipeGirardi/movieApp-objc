@@ -32,8 +32,9 @@
 }
 
 
-- (NSString *) getDataFrom: (NSString *) url {
+- (NSMutableArray *) getDataFrom: (NSString *) url {
     
+    NSMutableArray *popularMoviesList = [NSMutableArray array];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setHTTPMethod:@"GET"];
     [request setURL: [NSURL URLWithString: url]];
@@ -46,9 +47,6 @@
         if (error == nil) {
             
             NSMutableDictionary *jsonData = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &error];
-            
-            
-            NSMutableArray *popularMoviesList = [NSMutableArray array];
             
             //NSString *movieName = [jsonData objectForKey: @"page"];
             NSArray *moviesDataArray = [jsonData objectForKey: @"results"];
@@ -69,7 +67,7 @@
         
     }] resume];
     
-    return @"a";
+    return popularMoviesList;
 }
 
 @end
