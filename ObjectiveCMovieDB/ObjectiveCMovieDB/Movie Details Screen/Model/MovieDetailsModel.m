@@ -31,21 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTProductionCompany (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTProductionCountry (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTSpokenLanguage (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
 static id map(id collection, id (^f)(id value)) {
     id result = nil;
     if ([collection isKindOfClass:NSArray.class]) {
@@ -99,31 +84,12 @@ NSString *_Nullable QTMovieDetailsToJSON(QTMovieDetails *movieDetails, NSStringE
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"adult": @"adult",
-        @"backdrop_path": @"backdropPath",
-        @"belongs_to_collection": @"belongsToCollection",
-        @"budget": @"budget",
         @"genres": @"genres",
-        @"homepage": @"homepage",
         @"id": @"identifier",
-        @"imdb_id": @"imdbID",
-        @"original_language": @"originalLanguage",
-        @"original_title": @"originalTitle",
         @"overview": @"overview",
-        @"popularity": @"popularity",
         @"poster_path": @"posterPath",
-        @"production_companies": @"productionCompanies",
-        @"production_countries": @"productionCountries",
-        @"release_date": @"releaseDate",
-        @"revenue": @"revenue",
-        @"runtime": @"runtime",
-        @"spoken_languages": @"spokenLanguages",
-        @"status": @"status",
-        @"tagline": @"tagline",
         @"title": @"title",
-        @"video": @"video",
         @"vote_average": @"voteAverage",
-        @"vote_count": @"voteCount",
     };
 }
 
@@ -147,9 +113,6 @@ NSString *_Nullable QTMovieDetailsToJSON(QTMovieDetails *movieDetails, NSStringE
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         _genres = map(_genres, λ(id x, [QTGenre fromJSONDictionary:x]));
-        _productionCompanies = map(_productionCompanies, λ(id x, [QTProductionCompany fromJSONDictionary:x]));
-        _productionCountries = map(_productionCountries, λ(id x, [QTProductionCountry fromJSONDictionary:x]));
-        _spokenLanguages = map(_spokenLanguages, λ(id x, [QTSpokenLanguage fromJSONDictionary:x]));
     }
     return self;
 }
@@ -176,9 +139,6 @@ NSString *_Nullable QTMovieDetailsToJSON(QTMovieDetails *movieDetails, NSStringE
     // Map values that need translation
     [dict addEntriesFromDictionary:@{
         @"genres": NSNullify(map(_genres, λ(id x, [x JSONDictionary]))),
-        @"production_companies": NSNullify(map(_productionCompanies, λ(id x, [x JSONDictionary]))),
-        @"production_countries": NSNullify(map(_productionCountries, λ(id x, [x JSONDictionary]))),
-        @"spoken_languages": NSNullify(map(_spokenLanguages, λ(id x, [x JSONDictionary]))),
     }];
 
     return dict;
@@ -231,146 +191,6 @@ NSString *_Nullable QTMovieDetailsToJSON(QTMovieDetails *movieDetails, NSStringE
     // Rewrite property names that differ in JSON
     for (id jsonName in QTGenre.properties) {
         id propertyName = QTGenre.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    return dict;
-}
-@end
-
-@implementation QTProductionCompany
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"id": @"identifier",
-        @"logo_path": @"logoPath",
-        @"name": @"name",
-        @"origin_country": @"originCountry",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTProductionCompany alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = QTProductionCompany.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTProductionCompany.properties.allValues] mutableCopy];
-
-    // Rewrite property names that differ in JSON
-    for (id jsonName in QTProductionCompany.properties) {
-        id propertyName = QTProductionCompany.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    return dict;
-}
-@end
-
-@implementation QTProductionCountry
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"iso_3166_1": @"iso3166_1",
-        @"name": @"name",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTProductionCountry alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = QTProductionCountry.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTProductionCountry.properties.allValues] mutableCopy];
-
-    // Rewrite property names that differ in JSON
-    for (id jsonName in QTProductionCountry.properties) {
-        id propertyName = QTProductionCountry.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    return dict;
-}
-@end
-
-@implementation QTSpokenLanguage
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"iso_639_1": @"iso639_1",
-        @"name": @"name",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTSpokenLanguage alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = QTSpokenLanguage.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTSpokenLanguage.properties.allValues] mutableCopy];
-
-    // Rewrite property names that differ in JSON
-    for (id jsonName in QTSpokenLanguage.properties) {
-        id propertyName = QTSpokenLanguage.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
