@@ -73,7 +73,30 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
 
     newMovie = [popularMovies objectAtIndex: [indexPath row]];
     
+    NSNumber *voteAverage = [[popularMovies objectAtIndex: [indexPath row]] voteAverage];
+    NSString *posterPath = [[popularMovies objectAtIndex: [indexPath row]] posterPath];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    formatter.minimumFractionDigits = 0;
+    formatter.maximumFractionDigits = 2;
+    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+    
+    
+    NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+    
+    [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+    [[[cell movieImage] layer] setCornerRadius: 10];
+    
     [[cell movieTitleLabel] setText: [[popularMovies objectAtIndex: [indexPath row]] title]];
+    
+    [[cell movieDescriptionLabel] setText: [[popularMovies objectAtIndex: [indexPath row]] overview]];
+    
+    [[cell movieRatingLabel] setText: ratingString];
+
     
     return cell;
 }

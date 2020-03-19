@@ -16,9 +16,9 @@
 
 @property (nonatomic, strong)   NSString *posterPath;
 @property (nonatomic, assign) NSInteger identifier;
-@property (nonatomic, assign)   NSArray<NSNumber *> *genreIDS;
+@property (nonatomic, strong)   NSArray<NSNumber *> *genreIDS;
 @property (nonatomic, strong)   NSString *title;
-@property (nonatomic, assign)  NSNumber * voteAverage;
+@property (nonatomic, strong)  NSNumber * voteAverage;
 @property (nonatomic, strong)   NSString *overview;
 
 -(instancetype) initMovie: (NSString *) title overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage;
