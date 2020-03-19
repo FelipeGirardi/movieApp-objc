@@ -164,25 +164,19 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    MainScreenMovie *selectedMovie = nil;
+    
     if (indexPath.section == 0) {
-        MainScreenMovie *selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
-        
-        NSNumber *movieID = [selectedMovie movieId];
-        
-        NSLog(@"%@", movieID);
-        // Enviar movieID para onde quiser!!
+         selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
     }
     
     else if (indexPath.section == 1) {
         
-        MainScreenMovie *selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
-        
-        NSNumber *movieID = [selectedMovie movieId];
-        
-        NSLog(@"%@", movieID);
-        
-        // Enviar movieID para onde quiser!!
+        selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
     }
+    NSNumber *movieID = [selectedMovie movieId];
+    
+    // Enviar movieID para onde quiser!
 }
 
 @end
