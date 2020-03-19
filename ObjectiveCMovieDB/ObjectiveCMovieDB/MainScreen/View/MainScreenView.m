@@ -171,7 +171,6 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     }
     
     else if (indexPath.section == 1) {
-        
         selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
     }
     NSNumber *movieID = [selectedMovie movieId];
