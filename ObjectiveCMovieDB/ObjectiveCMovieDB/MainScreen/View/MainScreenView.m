@@ -23,11 +23,10 @@
 @implementation MainScreenView
 
 @synthesize moviesTableView = _moviesTableView;
+@synthesize moviesSearchBar = _moviesSearchBar;
 
 MainScreenNetwork *network = nil;
 NSMutableArray<MainScreenMovie*> *popularMovies = nil;
-
-//NSMutableArray<NSString*> *titleList = nil;
 
 
 - (void) viewDidLoad {
@@ -45,16 +44,8 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
     
     [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
         
-        for (MainScreenMovie * movie in moviesList) {
-            NSLog([movie description]);
-            //[titleList addObject: [movie title]];
-        }
         popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
-        
-        for (MainScreenMovie * movie in popularMovies) {
-            NSLog([movie description]);
-        }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
@@ -78,23 +69,11 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
         cell = [nib objectAtIndex: 0];
     }
     
-//    cell.movieTitleLabel.text = @"Spider-Man: Far from Home";
-//    cell.movieImage.layer.cornerRadius = 10;
-//    cell.movieDescriptionLabel.text = @"Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to...";
     MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
 
     newMovie = [popularMovies objectAtIndex: [indexPath row]];
     
-//    cell.movieTitleLabel.text = newMovie.title;
-    
-    for (MainScreenMovie * movie in popularMovies) {
-        printf("");
-    }
-    
     [[cell movieTitleLabel] setText: [[popularMovies objectAtIndex: [indexPath row]] title]];
-    
-    //[[cell movieTitleLabel] setText: [titleList objectAtIndex:[indexPath row]]];
-     
     
     return cell;
 }

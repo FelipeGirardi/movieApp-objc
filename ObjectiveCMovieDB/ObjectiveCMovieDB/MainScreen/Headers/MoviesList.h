@@ -14,12 +14,12 @@
 
 @interface MainScreenMovie : NSObject
 
-@property (nonatomic, assign)   NSString *posterPath;
+@property (nonatomic, strong)   NSString *posterPath;
 @property (nonatomic, assign) NSInteger identifier;
 @property (nonatomic, assign)   NSArray<NSNumber *> *genreIDS;
-@property (nonatomic, assign)   NSString *title;
+@property (nonatomic, strong)   NSString *title;
 @property (nonatomic, assign)  NSNumber * voteAverage;
-@property (nonatomic, assign)   NSString *overview;
+@property (nonatomic, strong)   NSString *overview;
 
 -(instancetype) initMovie: (NSString *) title overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage;
 

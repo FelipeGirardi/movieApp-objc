@@ -16,5 +16,6 @@
 @interface MainScreenView : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *moviesTableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *moviesSearchBar;
 
 @end
