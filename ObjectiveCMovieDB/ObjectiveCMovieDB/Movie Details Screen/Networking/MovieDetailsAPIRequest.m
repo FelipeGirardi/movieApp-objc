@@ -30,10 +30,11 @@
                 NSError *error1;
                 QTMovieDetails *movieDetails = [QTMovieDetails fromData:data error:&error1];
                 
+                //NSLog(@"Request reply: %@", movieDetails);
+                
                 if(completeBlock)
                     completeBlock(movieDetails);
                 
-                //NSLog(@"Request reply: %@", movieDetails);
             }] resume];
 }
 
