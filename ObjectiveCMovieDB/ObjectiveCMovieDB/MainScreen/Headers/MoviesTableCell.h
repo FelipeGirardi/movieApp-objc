@@ -20,6 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *movieDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *starImage;
 @property (weak, nonatomic) IBOutlet UILabel *movieRatingLabel;
-
+@property (weak, nonatomic) NSNumber *movieId;
 
 @end

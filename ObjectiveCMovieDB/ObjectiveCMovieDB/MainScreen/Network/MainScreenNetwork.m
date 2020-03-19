@@ -54,6 +54,7 @@
             for (NSDictionary * movie in moviesDataArray) {
                 
                 MainScreenMovie *popularMovie = [[MainScreenMovie alloc] initMovie: [movie objectForKey:@"title"]
+                                                                           movieId: [movie objectForKey:@"id"]
                                                                           overview: [movie objectForKey:@"overview"]
                                                                         posterPath: [movie objectForKey:@"poster_path"]
                                                                        voteAverage: [movie objectForKey:@"vote_average"]];

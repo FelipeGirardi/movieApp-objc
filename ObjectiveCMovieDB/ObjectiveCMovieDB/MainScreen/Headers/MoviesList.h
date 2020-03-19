@@ -20,8 +20,9 @@
 @property (nonatomic, strong)   NSString *title;
 @property (nonatomic, strong)  NSNumber * voteAverage;
 @property (nonatomic, strong)   NSString *overview;
+@property (nonatomic, strong) NSNumber *movieId;
 
--(instancetype) initMovie: (NSString *) title overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage;
+-(instancetype) initMovie: (NSString *) title movieId: (NSNumber *) currentMovieID overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage;
 
 @end
 

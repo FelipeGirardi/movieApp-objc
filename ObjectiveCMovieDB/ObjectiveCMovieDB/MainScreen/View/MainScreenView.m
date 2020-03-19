@@ -103,6 +103,8 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     NSURL *url = [NSURL URLWithString:urlString];
     NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
     
+    cell.movieId = [newMovie movieId];
+    
     [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
     [[[cell movieImage] layer] setCornerRadius: 10];
     
@@ -158,6 +160,29 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     [sectionLabel setText: title];
     
     return sectionView;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        MainScreenMovie *selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
+        
+        NSNumber *movieID = [selectedMovie movieId];
+        
+        NSLog(@"%@", movieID);
+        // Enviar movieID para onde quiser!!
+    }
+    
+    else if (indexPath.section == 1) {
+        
+        MainScreenMovie *selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
+        
+        NSNumber *movieID = [selectedMovie movieId];
+        
+        NSLog(@"%@", movieID);
+        
+        // Enviar movieID para onde quiser!!
+    }
 }
 
 @end

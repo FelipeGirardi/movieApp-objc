@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LQ9-Dk-sZp">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Movie Details-->
+        <scene sceneID="DYd-nF-OGf">
+            <objects>
+                <viewController title="Movie Details" modalPresentationStyle="fullScreen" id="LQ9-Dk-sZp" customClass="MovieDetailsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="31c-ks-sBA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lionKing" translatesAutoresizingMaskIntoConstraints="NO" id="DgL-lo-EbT">
+                                <rect key="frame" x="21" y="18" width="128" height="194"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="194" id="JKU-Q8-sxn"/>
+                                    <constraint firstAttribute="width" constant="128" id="NOi-1J-P4w"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="Efo-A9-YLB">
+                                <rect key="frame" x="163" y="103" width="184" height="96"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Lion King" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKs-Gb-FVV">
+                                        <rect key="frame" x="0.0" y="0.0" width="124.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adventure, Animation, Family, Drama, Action" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OTk-ZU-HAQ">
+                                        <rect key="frame" x="0.0" y="33" width="173.5" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.59199999999999997" green="0.59199999999999997" blue="0.59199999999999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Pdx-04-bFN">
+                                        <rect key="frame" x="0.0" y="83" width="32.5" height="13"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0ba-cL-rEy">
+                                                <rect key="frame" x="0.0" y="0.0" width="13" height="13"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" red="0.59199999999999997" green="0.59199999999999997" blue="0.59199999999999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="13" id="1v3-3s-uIl"/>
+                                                    <constraint firstAttribute="width" constant="13" id="oJo-r5-7KD"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJ7-8I-QsN">
+                                                <rect key="frame" x="18" y="0.0" width="14.5" height="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.59199999999999997" green="0.59199999999999997" blue="0.59199999999999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="184" id="PHw-wb-fQB"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="MIU-ym-kwf">
+                                <rect key="frame" x="26" y="230" width="368" height="537"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Su-7H-lOO">
+                                        <rect key="frame" x="0.0" y="0.0" width="63" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRP-u4-GiZ">
+                                        <rect key="frame" x="0.0" y="29" width="368" height="508"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <mutableString key="text">Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. \n\nWith help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. \n\nThe battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his. \n\nSimba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.</mutableString>
+                                        <color key="textColor" red="0.51000000000000001" green="0.51000000000000001" blue="0.51000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bRP-u4-GiZ" firstAttribute="trailing" secondItem="MIU-ym-kwf" secondAttribute="trailingMargin" id="hZj-fk-uAy"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DgL-lo-EbT" firstAttribute="leading" secondItem="TuU-Rz-lHY" secondAttribute="leading" constant="21" id="005-j8-ZRH"/>
+                            <constraint firstItem="MIU-ym-kwf" firstAttribute="leading" secondItem="TuU-Rz-lHY" secondAttribute="leading" constant="26" id="5cl-gJ-VsN"/>
+                            <constraint firstItem="Efo-A9-YLB" firstAttribute="top" secondItem="TuU-Rz-lHY" secondAttribute="top" constant="103" id="AVk-Ol-swa"/>
+                            <constraint firstItem="MIU-ym-kwf" firstAttribute="trailing" secondItem="31c-ks-sBA" secondAttribute="trailingMargin" id="KKh-pU-ard"/>
+                            <constraint firstItem="TuU-Rz-lHY" firstAttribute="bottom" secondItem="MIU-ym-kwf" secondAttribute="bottom" constant="7" id="OTw-NJ-a8w"/>
+                            <constraint firstItem="DgL-lo-EbT" firstAttribute="top" secondItem="TuU-Rz-lHY" secondAttribute="top" constant="18" id="SN1-ha-dqc"/>
+                            <constraint firstItem="MIU-ym-kwf" firstAttribute="top" secondItem="DgL-lo-EbT" secondAttribute="bottom" constant="18" id="Z2A-eP-tg7"/>
+                            <constraint firstItem="Efo-A9-YLB" firstAttribute="leading" secondItem="DgL-lo-EbT" secondAttribute="trailing" constant="14" id="u6b-hA-pel"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TuU-Rz-lHY"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Movie Details" id="caj-dA-KRb"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="genreLabel" destination="OTk-ZU-HAQ" id="p62-iO-gDu"/>
+                        <outlet property="overviewLabel" destination="3Su-7H-lOO" id="pzL-s6-Vqw"/>
+                        <outlet property="overviewTextView" destination="bRP-u4-GiZ" id="Szh-F2-Wxg"/>
+                        <outlet property="posterImageView" destination="DgL-lo-EbT" id="YU1-Wu-KdO"/>
+                        <outlet property="ratingLabel" destination="xJ7-8I-QsN" id="qAn-OR-O9U"/>
+                        <outlet property="starImageView" destination="0ba-cL-rEy" id="Gjg-ms-vef"/>
+                        <outlet property="titleLabel" destination="LKs-Gb-FVV" id="oek-o7-4wQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s2H-Xs-94o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="37.681159420289859" y="146.65178571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="lionKing" width="128" height="194"/>
+        <image name="star" catalog="system" width="64" height="58"/>
+    </resources>
+</document>

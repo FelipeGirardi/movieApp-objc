@@ -11,7 +11,7 @@
 
 @implementation MainScreenMovie
 
--(instancetype) initMovie: (NSString *) title overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage {
+-(instancetype) initMovie: (NSString *) title movieId: (NSNumber *) currentMovieID overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage {
 
     self = [super init];
     if (self) {
@@ -19,6 +19,7 @@
         self.overview = currentOverview;
         self.posterPath = currentPosterPath;
         self.voteAverage = currentVoteAverage;
+        self.movieId = currentMovieID;
     }
 
     return self;
