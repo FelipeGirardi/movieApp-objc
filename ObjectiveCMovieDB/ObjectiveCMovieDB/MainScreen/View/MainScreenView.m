@@ -27,7 +27,7 @@
 
 MainScreenNetwork *network = nil;
 NSMutableArray<MainScreenMovie*> *popularMovies = nil;
-
+NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -38,13 +38,23 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
     
     [self setNavigationBar];
     
-    //titleList = NSMutableArray.new;
     popularMovies = NSMutableArray.new;
+    playingNowMovies = NSMutableArray.new;
     network = MainScreenNetwork.instantiateNetwork;
     
     [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
         
         popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_moviesTableView reloadData];
+        });
+        
+    }];
+    
+    [network getDataFrom:@"https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1" completion:^ (NSMutableArray * moviesList) {
+        
+        playingNowMovies = [[NSMutableArray alloc] initWithArray:moviesList];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
@@ -70,11 +80,16 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
     }
     
     MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
-
-    newMovie = [popularMovies objectAtIndex: [indexPath row]];
     
-    NSNumber *voteAverage = [[popularMovies objectAtIndex: [indexPath row]] voteAverage];
-    NSString *posterPath = [[popularMovies objectAtIndex: [indexPath row]] posterPath];
+    if ([indexPath section] == 0) {
+        newMovie = [popularMovies objectAtIndex: [indexPath row]];
+    }
+    else if ([indexPath section] == 1) {
+        newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
+    }
+    
+    NSNumber *voteAverage = [newMovie voteAverage];
+    NSString *posterPath = [newMovie posterPath];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
@@ -91,22 +106,27 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
     [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
     [[[cell movieImage] layer] setCornerRadius: 10];
     
-    [[cell movieTitleLabel] setText: [[popularMovies objectAtIndex: [indexPath row]] title]];
-    
-    [[cell movieDescriptionLabel] setText: [[popularMovies objectAtIndex: [indexPath row]] overview]];
+    [[cell movieTitleLabel] setText: [newMovie title]];
+
+    [[cell movieDescriptionLabel] setText: [newMovie overview]];
     
     [[cell movieRatingLabel] setText: ratingString];
 
-    
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [popularMovies count];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"filmes";
+    
+    if (section == 0) {
+        return [popularMovies count];
+    }
+    else if (section == 1) {
+        return [playingNowMovies count];
+    }
+    
+    else {
+        return 0;
+    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -120,13 +140,22 @@ NSMutableArray<MainScreenMovie*> *popularMovies = nil;
     
     UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, _moviesTableView.frame.size.width, 25)];
     
-    NSString *title = @"Popular Movies";
+    NSString *title = @"Others";
     
-    [sectionLabel setText: title];
     [sectionLabel setFont: [UIFont boldSystemFontOfSize:20]];
     
     [sectionView addSubview: sectionLabel];
     [sectionView setBackgroundColor: [UIColor whiteColor]];
+    
+    if (section == 0) {
+         title = @"Popular Movies";
+    }
+    
+    else if (section == 1) {
+         title = @"Playing Now";
+    }
+    
+    [sectionLabel setText: title];
     
     return sectionView;
 }
