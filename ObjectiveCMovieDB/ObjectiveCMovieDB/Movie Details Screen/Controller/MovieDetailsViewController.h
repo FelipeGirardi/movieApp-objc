@@ -13,7 +13,7 @@
 
 @interface MovieDetailsViewController : UIViewController
 
-
+@property (nonatomic) int movieId;
 
 @end
 
