@@ -33,9 +33,9 @@ class ListWorker {
     func getPopularMoviesRequest(completion: @escaping finishedGettingPopularMovies){
         let objcNetwork = MainScreenNetwork()
         
-    objcNetwork.getDataFrom("https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e") { (data) in
+    objcNetwork.getDataFrom("https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e") { (moviesListData) in
     
-            for element in data ?? [] {
+            for element in moviesListData ?? [] {
                 if let newMovie = element as? MainScreenMovie {
                     
                     let popularMovie = Movie.Popular(title: newMovie.title,
@@ -55,53 +55,27 @@ class ListWorker {
     }
     
     func getPlayingNowRequest(completion: @escaping finishedGettingPlayingNowMovies) {
-        var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1")!)
         
-        request.httpMethod = "GET"
-        
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            guard let dataResponse = data, error == nil else {
-                print(error?.localizedDescription ?? "")
-                return
-            }
-            do {
-                let returnAPI = try JSONDecoder().decode(APIReturn.self, from: dataResponse)
+        let objcNetwork = MainScreenNetwork()
+    objcNetwork.getDataFrom("https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1") { (moviesListData) in
+            
+            for element in moviesListData ?? [] {
                 
-                self.preparePlayingNowMovieInformation(apiReturn: returnAPI)
-                completion(self.playingNowMovieList, nil)
-                
-            } catch {
-                print(error.localizedDescription )
+                if let newMovie = element as? MainScreenMovie {
+                    
+                    let playingNowMovie = Movie.NowPlaying(title: newMovie.title,
+                                                           rating: Double(truncating: newMovie.voteAverage),
+                                                           image: self.getMovieImage(posterPath: newMovie.posterPath) ?? Data())
+                    
+                    self.playingNowMovieList.append(playingNowMovie)
+                }
             }
-        })
-        
-        dataTask.resume()
+            
+            self.delegate?.getPlayingNowMovies(didFinishGettingPlayingNowMovies: self.playingNowMovieList)
+            completion(self.playingNowMovieList, nil)
+        }
     }
     
-    
-//    func getMovieImage(movieID: Int) {
-//        var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/movie/\(movieID)/images?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US")!)
-//
-//        request.httpMethod = "GET"
-//
-//        let session = URLSession.shared
-//        let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-//            guard let dataResponse = data, error == nil else{
-//                print(error)
-//                return
-//            }
-//            do {
-//                let returnAPI = try JSONDecoder().decode(APIReturn.self, from: dataResponse)
-//
-//
-//            } catch {
-//                print(error)
-//            }
-//        })
-//
-//        dataTask.resume()
-//    }
     func getMovieImage(posterPath: String?) -> Data? {
         if posterPath == nil {
             return nil
