@@ -30,7 +30,7 @@
         <!--Main Screen View-->
         <scene sceneID="5Oi-VZ-sHN">
             <objects>
-                <viewController id="Loh-U6-VY0" customClass="MainScreenView" sceneMemberID="viewController">
+                <viewController modalTransitionStyle="flipHorizontal" id="Loh-U6-VY0" customClass="MainScreenView" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hGP-GO-XbP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -132,11 +132,22 @@
                     <connections>
                         <outlet property="moviesSearchBar" destination="bZE-5y-Pul" id="bMh-ub-LRH"/>
                         <outlet property="moviesTableView" destination="2t3-ok-JfT" id="Cxs-C7-iXm"/>
+                        <segue destination="bL0-LY-FUb" kind="show" identifier="toMovieDetailsScreen" id="Qfb-6p-1yX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Er-K4-euJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-691.304347826087" y="-75"/>
+        </scene>
+        <!--MovieDetails-->
+        <scene sceneID="vsc-hl-qwl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="MovieDetails" id="bL0-LY-FUb" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="fQH-33-4yc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H1x-xE-jKc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="109" y="-68"/>
         </scene>
     </scenes>
     <resources>

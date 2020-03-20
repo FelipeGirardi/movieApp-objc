@@ -11,11 +11,13 @@
 #import "MoviesTableCell.h"
 #import "MainScreenNetwork.h"
 #import "MoviesList.h"
+#import "MovieDetailsViewController.h"
 
 
 @interface MainScreenView ()
 
 @property(nonatomic, readwrite, assign) BOOL prefersLargeTitle;
+@property(nonatomic) int selectedMovieID;
 
 @end
 
@@ -61,6 +63,19 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         });
         
     }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"toMovieDetailsScreen"])
+    {
+        // Get reference to the destination view controller
+        MovieDetailsViewController *vc = segue.destinationViewController;
+
+        // Pass any objects to the view controller here, like...
+        vc.movieId = self.selectedMovieID;
+    }
 }
 
 - (void) setNavigationBar {
@@ -173,9 +188,10 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     else if (indexPath.section == 1) {
         selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
     }
-    NSNumber *movieID = [selectedMovie movieId];
+    NSNumber *movieIdNumber = [selectedMovie movieId];
+    self.selectedMovieID = [movieIdNumber intValue];
     
-    // Enviar movieID para onde quiser!
+    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 @end

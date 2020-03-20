@@ -36,13 +36,13 @@
     
     // Call API request for movie details and store them in self.movieDetails (uncomment for request)
     
-//    [MovieDetailsAPIRequest fetchMovieByID: 2 completeBlock:^(QTMovieDetails * movieDetails){
-//
-//        __weak typeof(self) weakSelf = self;
-//        dispatch_async(dispatch_get_main_queue(), ^(void){
-//            [weakSelf updateMovieDetailsUI: movieDetails];
-//        });
-//    }];
+    [MovieDetailsAPIRequest fetchMovieByID: self.movieId completeBlock:^(QTMovieDetails * movieDetails){
+
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [weakSelf updateMovieDetailsUI: movieDetails];
+        });
+    }];
     
 }
 
