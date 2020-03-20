@@ -38,6 +38,8 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     _moviesTableView.dataSource = self;
     _moviesTableView.sectionHeaderHeight = 50;
     
+    _moviesSearchBar.delegate = self;
+    
     [self setNavigationBar];
     
     popularMovies = NSMutableArray.new;
@@ -192,6 +194,22 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     self.selectedMovieID = [movieIdNumber intValue];
     
     [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    
+    NSString *searchUrlString = [NSString stringWithFormat: @"%s%@", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", searchText];
+    [network getDataFrom:searchUrlString completion:^ (NSMutableArray * moviesList) {
+        
+        NSLog(@"%@", moviesList);
+        
+//        popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self->_moviesTableView reloadData];
+//        });
+        
+    }];
 }
 
 @end
