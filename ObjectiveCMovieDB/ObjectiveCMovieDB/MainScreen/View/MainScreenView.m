@@ -18,6 +18,7 @@
 
 @property(nonatomic, readwrite, assign) BOOL prefersLargeTitle;
 @property(nonatomic) int selectedMovieID;
+@property(nonatomic) BOOL isSearchActive;
 
 @end
 
@@ -38,11 +39,15 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     _moviesTableView.dataSource = self;
     _moviesTableView.sectionHeaderHeight = 50;
     
+    _moviesSearchBar.delegate = self;
+    
     [self setNavigationBar];
     
     popularMovies = NSMutableArray.new;
     playingNowMovies = NSMutableArray.new;
     network = MainScreenNetwork.instantiateNetwork;
+    
+    self.isSearchActive = false;
     
     [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
         
@@ -99,7 +104,7 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     if ([indexPath section] == 0) {
         newMovie = [popularMovies objectAtIndex: [indexPath row]];
     }
-    else if ([indexPath section] == 1) {
+    else if ([indexPath section] == 1 && self.isSearchActive == false) {
         newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
     }
     
@@ -137,7 +142,7 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     if (section == 0) {
         return [popularMovies count];
     }
-    else if (section == 1) {
+    else if (section == 1 && self.isSearchActive == false) {
         return [playingNowMovies count];
     }
     
@@ -157,7 +162,7 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     
     UILabel *sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, _moviesTableView.frame.size.width, 25)];
     
-    NSString *title = @"Others";
+    NSString *title = @"";
     
     [sectionLabel setFont: [UIFont boldSystemFontOfSize:20]];
     
@@ -165,10 +170,14 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     [sectionView setBackgroundColor: [UIColor whiteColor]];
     
     if (section == 0) {
-         title = @"Popular Movies";
+        if(self.isSearchActive == false) {
+            title = @"Popular Movies";
+        } else {
+            title = @"Search Results";
+        }
     }
     
-    else if (section == 1) {
+    else if (section == 1 && self.isSearchActive == false) {
          title = @"Playing Now";
     }
     
@@ -192,6 +201,31 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     self.selectedMovieID = [movieIdNumber intValue];
     
     [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    
+    if(![searchText  isEqual: @""]) {
+        self.isSearchActive = true;
+        NSString *searchUrlString = [NSString stringWithFormat: @"%s%@", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", searchText];
+        [network getDataFrom:searchUrlString completion:^ (NSMutableArray * moviesList) {
+            popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self->_moviesTableView reloadData];
+            });
+        }];
+    } else {
+        self.isSearchActive = false;
+        
+        [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
+            
+            popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self->_moviesTableView reloadData];
+            });
+        }];
+    }
 }
 
 @end
