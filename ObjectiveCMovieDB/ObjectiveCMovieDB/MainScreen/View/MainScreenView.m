@@ -19,6 +19,11 @@
 @property(nonatomic, readwrite, assign) BOOL prefersLargeTitle;
 @property(nonatomic) int selectedMovieID;
 @property(nonatomic) BOOL isSearchActive;
+@property(nonatomic) int currentPopularMoviesPage;
+@property(nonatomic) int currentNowPlayingMoviesPage;
+
+- (void) popularMoviesRequest: (int)currentPopularMoviesPage;
+- (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
 
 @end
 
@@ -48,26 +53,32 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     network = MainScreenNetwork.instantiateNetwork;
     
     self.isSearchActive = false;
+    self.currentPopularMoviesPage = 1;
+    self.currentNowPlayingMoviesPage = 1;
     
-    [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
-        
-        popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_moviesTableView reloadData];
-        });
-        
-    }];
+    // API Requests
+    [self popularMoviesRequest: self.currentPopularMoviesPage];
+    [self nowPlayingMoviesRequest: self.currentNowPlayingMoviesPage];
     
-    [network getDataFrom:@"https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1" completion:^ (NSMutableArray * moviesList) {
-        
-        playingNowMovies = [[NSMutableArray alloc] initWithArray:moviesList];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_moviesTableView reloadData];
-        });
-        
-    }];
+//    [network getDataFrom:@"https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e" completion:^ (NSMutableArray * moviesList) {
+//
+//        popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self->_moviesTableView reloadData];
+//        });
+//
+//    }];
+//
+//    [network getDataFrom:@"https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1" completion:^ (NSMutableArray * moviesList) {
+//
+//        playingNowMovies = [[NSMutableArray alloc] initWithArray:moviesList];
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self->_moviesTableView reloadData];
+//        });
+//
+//    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -81,6 +92,34 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         // Pass any objects to the view controller here, like...
         vc.movieId = self.selectedMovieID;
     }
+}
+
+- (void) popularMoviesRequest: (int)currentPopularMoviesPage {
+    NSString *urlString  = [NSString stringWithFormat:@"%s%d%s","https://api.themoviedb.org/3/movie/popular?page=",currentPopularMoviesPage,"&language=en-US&api_key=77d63fcdb563d7f208a22cca549b5f3e"];
+    
+    [network getDataFrom:urlString completion:^ (NSMutableArray * moviesList) {
+        
+        [popularMovies addObjectsFromArray: moviesList];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_moviesTableView reloadData];
+        });
+        
+    }];
+}
+
+- (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage {
+    NSString *urlString  = [NSString stringWithFormat:@"%s%d","https://api.themoviedb.org/3/movie/now_playing?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=",currentNowPlayingMoviesPage];
+    
+    [network getDataFrom:urlString completion:^ (NSMutableArray * moviesList) {
+        
+        [playingNowMovies addObjectsFromArray: moviesList];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_moviesTableView reloadData];
+        });
+        
+    }];
 }
 
 - (void) setNavigationBar {
@@ -221,12 +260,14 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
 
 - (void)showMorePopularMoviesButton:(id)sender
 {
-    NSLog(@"Hello button");
+    self.currentPopularMoviesPage += 1;
+    [self popularMoviesRequest: self.currentPopularMoviesPage];
 }
 
 - (void)showMoreNowPlayingMoviesButton:(id)sender
 {
-    NSLog(@"Hello button 2");
+    self.currentNowPlayingMoviesPage += 1;
+    [self nowPlayingMoviesRequest: self.currentNowPlayingMoviesPage];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
