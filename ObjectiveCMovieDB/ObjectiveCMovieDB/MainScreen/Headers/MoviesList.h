@@ -21,6 +21,7 @@
 @property (nonatomic, strong)  NSNumber * voteAverage;
 @property (nonatomic, strong)   NSString *overview;
 @property (nonatomic, strong) NSNumber *movieId;
+@property (nonatomic, strong) NSData *posterImageData;
 
 -(instancetype) initMovie: (NSString *) title movieId: (NSNumber *) currentMovieID overview: (NSString *) currentOverview posterPath: (NSString *) currentPosterPath voteAverage: (NSNumber *) currentVoteAverage;
 

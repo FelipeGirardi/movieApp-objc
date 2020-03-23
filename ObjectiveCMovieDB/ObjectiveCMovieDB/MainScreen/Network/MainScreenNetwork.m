@@ -66,8 +66,15 @@
         }
         
     }] resume];
+}
+
+- (void) downloadImage: (NSString *) imageURL completion: (void(^) (NSData * imageData)) callback {
     
+    NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", imageURL];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
     
+    callback(posterImageData);
 }
 
 @end

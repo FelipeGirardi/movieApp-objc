@@ -12,6 +12,7 @@
 #import "MainScreenNetwork.h"
 #import "MoviesList.h"
 #import "MovieDetailsViewController.h"
+#import "MovieDetailsAPIRequest.h"
 
 
 @interface MainScreenView ()
@@ -66,7 +67,6 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
-        
     }];
 }
 
