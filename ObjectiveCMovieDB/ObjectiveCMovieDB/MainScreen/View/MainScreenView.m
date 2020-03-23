@@ -142,18 +142,20 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     if (section == 0) {
         return [popularMovies count];
     }
-    else if (section == 1 && self.isSearchActive == false) {
-        return [playingNowMovies count];
-    }
-    
     else {
-        return 0;
+        return section == 1 && self.isSearchActive == false ? [playingNowMovies count] : 0;
     }
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return self.isSearchActive == false ? 2 : 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+      return 50.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -184,6 +186,47 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     [sectionLabel setText: title];
     
     return sectionView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 60.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+    UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
+    
+    if(section == 0) {
+    [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else if(section == 1) {
+        [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    [showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    showMoreButton.frame=CGRectMake(0, 0, 130, 30);
+    showMoreButton.center = footerView.center;
+    
+    showMoreButton.clipsToBounds = YES;
+    showMoreButton.layer.cornerRadius = 10.0f;
+    showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
+    showMoreButton.layer.borderWidth = 2.0f;
+    
+    [footerView addSubview:showMoreButton];
+    return footerView;
+}
+
+- (void)showMorePopularMoviesButton:(id)sender
+{
+    NSLog(@"Hello button");
+}
+
+- (void)showMoreNowPlayingMoviesButton:(id)sender
+{
+    NSLog(@"Hello button 2");
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
