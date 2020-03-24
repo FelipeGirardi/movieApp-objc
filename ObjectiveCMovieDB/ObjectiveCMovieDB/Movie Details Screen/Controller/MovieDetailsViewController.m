@@ -65,7 +65,14 @@
     genresString = [genresString stringByAppendingString: movieDetails.genres[movieDetails.genres.count-1].name];
     self.genreLabel.text = genresString;
     
-    self.ratingLabel.text = movieDetails.voteAverage.stringValue;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    formatter.minimumFractionDigits = 0;
+    formatter.maximumFractionDigits = 2;
+    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[movieDetails.voteAverage floatValue]]];
+    
+    self.ratingLabel.text = ratingString;
     self.overviewTextView.text = movieDetails.overview;
 }
 
