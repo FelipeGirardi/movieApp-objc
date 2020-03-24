@@ -13,6 +13,8 @@
 #import "MoviesList.h"
 #import "MovieDetailsViewController.h"
 #import "MovieDetailsAPIRequest.h"
+#import "MoviesCollectionViewTableCell.h"
+#import "MoviesCollectionCell.h"
 
 
 @interface MainScreenView ()
@@ -121,56 +123,69 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
  
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    MoviesTableCell *cell = (MoviesTableCell *)[tableView dequeueReusableCellWithIdentifier:@"movieCell"];
     
-    if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"movieCell" owner:self options:nil];
-        cell = [nib objectAtIndex: 0];
-    }
-    
-    MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
-    
-    if ([indexPath section] == 0) {
-        newMovie = [popularMovies objectAtIndex: [indexPath row]];
-    }
-    else if ([indexPath section] == 1 && self.isSearchActive == false) {
-        newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
-    }
-    
-    NSNumber *voteAverage = [newMovie voteAverage];
-    NSString *posterPath = [newMovie posterPath];
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
-    formatter.minimumFractionDigits = 0;
-    formatter.maximumFractionDigits = 2;
-    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
-    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
-    
-    if (newMovie.posterImageData == nil) {
-        NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
-        [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+    if ([indexPath row] == 0) {
+        MoviesCollectionViewTableCell * cell = (MoviesCollectionViewTableCell *) [tableView dequeueReusableCellWithIdentifier:@"upcomingMoviesCollectionCell"];
+        
+        cell.moviesCollectionView.delegate = self;
+        cell.moviesCollectionView.dataSource = self;
+        
+        return cell;
     }
     
     else {
-        [[cell movieImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+        MoviesTableCell *cell = (MoviesTableCell *)[tableView dequeueReusableCellWithIdentifier:@"movieCell"];
+        
+        if (cell == nil) {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"movieCell" owner:self options:nil];
+            cell = [nib objectAtIndex: 0];
+        }
+        
+        MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
+        
+        if ([indexPath section] == 0) {
+            newMovie = [popularMovies objectAtIndex: [indexPath row]];
+        }
+        else if ([indexPath section] == 1 && self.isSearchActive == false) {
+            newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
+        }
+        
+        NSNumber *voteAverage = [newMovie voteAverage];
+        NSString *posterPath = [newMovie posterPath];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+        formatter.minimumFractionDigits = 0;
+        formatter.maximumFractionDigits = 2;
+        [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+        NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+        
+        if (newMovie.posterImageData == nil) {
+            NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+            NSURL *url = [NSURL URLWithString:urlString];
+            NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+            [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+        }
+        
+        else {
+            [[cell movieImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+        }
+
+        
+        cell.movieId = [newMovie movieId];
+        
+        
+        [[[cell movieImage] layer] setCornerRadius: 10];
+        
+        [[cell movieTitleLabel] setText: [newMovie title]];
+
+        [[cell movieDescriptionLabel] setText: [newMovie overview]];
+        
+        [[cell movieRatingLabel] setText: ratingString];
+
+        return cell;
     }
-
     
-    cell.movieId = [newMovie movieId];
-    
-    
-    [[[cell movieImage] layer] setCornerRadius: 10];
-    
-    [[cell movieTitleLabel] setText: [newMovie title]];
-
-    [[cell movieDescriptionLabel] setText: [newMovie overview]];
-    
-    [[cell movieRatingLabel] setText: ratingString];
-
-    return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -263,6 +278,19 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         }];
     }
 }
+
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
+    
+    return cell;
+    
+}
+
 
 @end
 
