@@ -13,7 +13,7 @@
 
 #endif /* MainScreenView_h */
 
-@interface MainScreenView : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, UINavigationControllerDelegate, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MainScreenView : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, UINavigationControllerDelegate, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UITableView *moviesTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *moviesSearchBar;

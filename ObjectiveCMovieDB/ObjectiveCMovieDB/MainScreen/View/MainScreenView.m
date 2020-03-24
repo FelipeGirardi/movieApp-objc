@@ -123,12 +123,13 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
  
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    
-    if ([indexPath row] == 0) {
+    if ([indexPath section] == 0) {
         MoviesCollectionViewTableCell * cell = (MoviesCollectionViewTableCell *) [tableView dequeueReusableCellWithIdentifier:@"upcomingMoviesCollectionCell"];
         
         cell.moviesCollectionView.delegate = self;
         cell.moviesCollectionView.dataSource = self;
+        cell.moviesCollectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
+        cell.moviesCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
         return cell;
     }
@@ -143,10 +144,10 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         
         MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
         
-        if ([indexPath section] == 0) {
+        if ([indexPath section] == 1) {
             newMovie = [popularMovies objectAtIndex: [indexPath row]];
         }
-        else if ([indexPath section] == 1 && self.isSearchActive == false) {
+        else if ([indexPath section] == 2 && self.isSearchActive == false) {
             newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
         
@@ -191,9 +192,13 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 0) {
+        return 1;
+    }
+    
+    if (section == 1) {
         return [popularMovies count];
     }
-    else if (section == 1 && self.isSearchActive == false) {
+    else if (section == 2 && self.isSearchActive == false) {
         return [playingNowMovies count];
     }
     
@@ -204,7 +209,7 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -221,6 +226,10 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     [sectionView setBackgroundColor: [UIColor whiteColor]];
     
     if (section == 0) {
+        title = @"Upcoming Movies";
+    }
+    
+    if (section == 1) {
         if(self.isSearchActive == false) {
             title = @"Popular Movies";
         } else {
@@ -228,7 +237,7 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         }
     }
     
-    else if (section == 1 && self.isSearchActive == false) {
+    else if (section == 2 && self.isSearchActive == false) {
          title = @"Playing Now";
     }
     
@@ -241,11 +250,11 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
          selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
     }
     
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 2) {
         selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
     }
     NSNumber *movieIdNumber = [selectedMovie movieId];
@@ -288,9 +297,11 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
     
     return cell;
-    
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(122, 240);
+}
 
 @end
 
