@@ -54,6 +54,8 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         
         popularMovies = [[NSMutableArray alloc] initWithArray:moviesList];
 
+        [self downloadPopularMoviesPosters];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
@@ -64,10 +66,13 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
         
         playingNowMovies = [[NSMutableArray alloc] initWithArray:moviesList];
 
+        [self downloadPlayingNowPosters];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
     }];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -88,6 +93,30 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     self.title = @"Movies";
     
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+}
+
+- (void) downloadPopularMoviesPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in popularMovies) {
+                [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                    
+                    movie.posterImageData = imageData;
+                }];
+        }
+    });
+}
+
+- (void) downloadPlayingNowPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in playingNowMovies) {
+                [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                    
+                    movie.posterImageData = imageData;
+                }];
+        }
+    });
 }
  
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -118,14 +147,21 @@ NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
     [formatter setRoundingMode:NSNumberFormatterRoundFloor];
     NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
     
+    if (newMovie.posterImageData == nil) {
+        NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+        [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+    }
     
-    NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+    else {
+        [[cell movieImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+    }
+
     
     cell.movieId = [newMovie movieId];
     
-    [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+    
     [[[cell movieImage] layer] setCornerRadius: 10];
     
     [[cell movieTitleLabel] setText: [newMovie title]];
