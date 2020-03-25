@@ -397,23 +397,25 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if (indexPath.section == 1) {
-        if(!self.isSearchActive) {
-            selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
+    if (indexPath.section != 0) {
+        if (indexPath.section == 1) {
+            if(!self.isSearchActive) {
+                selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
+            }
+            else {
+                selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+            }
         }
-        else {
-            selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+        
+        else if (indexPath.section == 2) {
+            selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
+        
+        NSNumber *movieIdNumber = [selectedMovie movieId];
+        self.selectedMovieID = [movieIdNumber intValue];
+        
+        [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
     }
-    
-    else if (indexPath.section == 2) {
-        selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
-    }
-    
-    NSNumber *movieIdNumber = [selectedMovie movieId];
-    self.selectedMovieID = [movieIdNumber intValue];
-    
-    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -495,6 +497,23 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
             [self->_moviesTableView reloadData];
         });
     }];
+}
+
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MainScreenMovie *selectedMovie = nil;
+    
+    if(!self.isSearchActive) {
+        selectedMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+    }
+    else {
+        selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+    }
+    
+    NSNumber *movieIdNumber = [selectedMovie movieId];
+    self.selectedMovieID = [movieIdNumber intValue];
+    
+    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 @end

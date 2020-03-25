@@ -40,14 +40,14 @@
                                 <rect key="frame" x="0.0" y="132" width="414" height="764"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="upcomingMoviesCollectionCell" id="26h-KA-Mvh" customClass="MoviesCollectionViewTableCell">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="242"/>
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="upcomingMoviesCollectionCell" id="26h-KA-Mvh" customClass="MoviesCollectionViewTableCell">
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="242"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="26h-KA-Mvh" id="GpV-vj-LLT">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="242"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WCm-UY-JEP">
+                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WCm-UY-JEP">
                                                     <rect key="frame" x="20" y="11" width="374" height="220"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     <constraints>
@@ -74,7 +74,7 @@
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sUp-BV-wB3">
-                                                                        <rect key="frame" x="0.0" y="187.5" width="102" height="26.5"/>
+                                                                        <rect key="frame" x="0.0" y="187.5" width="122" height="26.5"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -89,7 +89,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.8" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYg-Pg-1Hz">
                                                                         <rect key="frame" x="30" y="221.5" width="22" height="20.5"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <nil key="textColor"/>
+                                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -103,7 +103,7 @@
                                                                     <constraint firstItem="sUp-BV-wB3" firstAttribute="top" secondItem="U6P-nk-BFd" secondAttribute="bottom" constant="5" id="WUF-83-LTB"/>
                                                                     <constraint firstItem="OYg-Pg-1Hz" firstAttribute="leading" secondItem="yOf-Fq-0G2" secondAttribute="trailing" constant="8" id="ahI-b4-gb5"/>
                                                                     <constraint firstAttribute="trailing" secondItem="U6P-nk-BFd" secondAttribute="trailing" id="g5U-UM-kZF"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="sUp-BV-wB3" secondAttribute="trailing" constant="20" symbolic="YES" id="htE-ni-cmm"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="sUp-BV-wB3" secondAttribute="trailing" id="htE-ni-cmm"/>
                                                                     <constraint firstItem="U6P-nk-BFd" firstAttribute="leading" secondItem="sfi-Xd-2cM" secondAttribute="leading" id="qKz-8D-2nw"/>
                                                                     <constraint firstItem="yOf-Fq-0G2" firstAttribute="leading" secondItem="sfi-Xd-2cM" secondAttribute="leading" id="wTg-RZ-Dtg"/>
                                                                     <constraint firstItem="yOf-Fq-0G2" firstAttribute="width" secondItem="sfi-Xd-2cM" secondAttribute="width" multiplier="0.180328" id="xcB-ig-MGG"/>
@@ -132,7 +132,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="171" id="RFo-AY-bsd" customClass="MoviesTableCell">
-                                        <rect key="frame" x="0.0" y="270" width="414" height="171"/>
+                                        <rect key="frame" x="0.0" y="297.5" width="414" height="171"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RFo-AY-bsd" id="Irl-o9-C6d">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="171"/>
