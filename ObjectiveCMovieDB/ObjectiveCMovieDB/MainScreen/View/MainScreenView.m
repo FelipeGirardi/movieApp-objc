@@ -22,7 +22,9 @@
 @property(nonatomic) int currentPopularMoviesPage;
 @property(nonatomic) int currentNowPlayingMoviesPage;
 @property(nonatomic) int currentSearchMoviesPage;
-@property(nonatomic) NSString * currentSearchTerm;
+@property(nonatomic) NSString* currentSearchTerm;
+@property(nonatomic) UIActivityIndicatorView* loadingIndicator;
+@property(nonatomic) BOOL isShowingFooter;
 
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
@@ -44,13 +46,26 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 - (void) viewDidLoad {
     [super viewDidLoad];
 
-    _moviesTableView.delegate = self;
-    _moviesTableView.dataSource = self;
+    self->_moviesTableView.delegate = self;
     _moviesTableView.sectionHeaderHeight = 50;
+    _isShowingFooter = false;
     
     _moviesSearchBar.delegate = self;
     
     [self setNavigationBar];
+    _moviesSearchBar.userInteractionEnabled = false;
+    _moviesTableView.sectionFooterHeight = 0.0;
+    
+    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 20);
+    CGRect loadingFrame = _loadingIndicator.frame;
+    loadingFrame.size.width = 35.0f;
+    loadingFrame.size.height = 35.0f;
+    _loadingIndicator.frame = loadingFrame;
+    _loadingIndicator.hidesWhenStopped = true;
+    [_loadingIndicator startAnimating];
+    [_moviesTableView addSubview: _loadingIndicator];
+    [_moviesTableView bringSubviewToFront:_loadingIndicator];
     
     popularMovies = NSMutableArray.new;
     playingNowMovies = NSMutableArray.new;
@@ -88,6 +103,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         [popularMovies addObjectsFromArray: moviesList];
 
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_loadingIndicator stopAnimating];
+            self->_moviesTableView.dataSource = self;
+            self->_moviesSearchBar.userInteractionEnabled = true;
+            self->_isShowingFooter = true;
             [self->_moviesTableView reloadData];
         });
         
@@ -229,28 +248,33 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
-    UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
-    
-    if(section == 0) {
-    [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+    if(!self.isShowingFooter) {
+        return [[UIView alloc] initWithFrame:CGRectZero];
     }
-    else if(section == 1) {
-        [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+    else {
+        UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+        UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
+        
+        if(section == 0) {
+        [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        else if(section == 1) {
+            [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        [showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        showMoreButton.frame=CGRectMake(0, 0, 130, 30);
+        showMoreButton.center = footerView.center;
+        
+        showMoreButton.clipsToBounds = YES;
+        showMoreButton.layer.cornerRadius = 10.0f;
+        showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
+        showMoreButton.layer.borderWidth = 2.0f;
+        
+        [footerView addSubview:showMoreButton];
+        return footerView;
     }
-    
-    [showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    showMoreButton.frame=CGRectMake(0, 0, 130, 30);
-    showMoreButton.center = footerView.center;
-    
-    showMoreButton.clipsToBounds = YES;
-    showMoreButton.layer.cornerRadius = 10.0f;
-    showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
-    showMoreButton.layer.borderWidth = 2.0f;
-    
-    [footerView addSubview:showMoreButton];
-    return footerView;
 }
 
 - (void)showMorePopularMoviesButton:(id)sender

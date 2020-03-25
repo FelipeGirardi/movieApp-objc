@@ -96,7 +96,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TuU-Rz-lHY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Movie Details" id="caj-dA-KRb"/>
+                    <navigationItem key="navigationItem" title="Movie Details" largeTitleDisplayMode="never" id="caj-dA-KRb"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="genreLabel" destination="OTk-ZU-HAQ" id="p62-iO-gDu"/>
