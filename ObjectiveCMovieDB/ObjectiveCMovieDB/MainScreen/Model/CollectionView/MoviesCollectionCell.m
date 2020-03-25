@@ -20,5 +20,6 @@
 @synthesize titleLabel = _titleLabel;
 @synthesize starImage = _starImage;
 @synthesize ratingLabel = _ratingLabel;
+@synthesize movieId = _movieId;
 
 @end

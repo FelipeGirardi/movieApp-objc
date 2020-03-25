@@ -31,6 +31,7 @@
 
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
+- (void) upcomingMoviesRequest;
 - (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term;
 
 @end
@@ -44,6 +45,7 @@
 MainScreenNetwork *network = nil;
 NSMutableArray<MainScreenMovie*> *popularMovies = nil;
 NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
+NSMutableArray<MainScreenMovie*> *upcomingMovies = nil;
 NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (void) viewDidLoad {
@@ -72,6 +74,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     popularMovies = NSMutableArray.new;
     playingNowMovies = NSMutableArray.new;
+    upcomingMovies = NSMutableArray.new;
     searchMovies = NSMutableArray.new;
     network = MainScreenNetwork.instantiateNetwork;
     
@@ -83,6 +86,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     // API Requests
     [self popularMoviesRequest: self.currentPopularMoviesPage];
     [self nowPlayingMoviesRequest: self.currentNowPlayingMoviesPage];
+    [self upcomingMoviesRequest];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -131,7 +135,22 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
             [self->_moviesTableView reloadData];
         });
     }];
+}
+
+- (void) upcomingMoviesRequest {
     
+    NSString *urlString = @"https://api.themoviedb.org/3/movie/upcoming?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1";
+    
+    [network getDataFrom:urlString completion:^ (NSMutableArray * moviesList) {
+       
+        [upcomingMovies addObjectsFromArray: moviesList];
+        
+        [self downloadUpcomingPosters];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_moviesTableView reloadData];
+        });
+    }];
 }
 
 - (void) setNavigationBar {
@@ -145,10 +164,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         for (MainScreenMovie * movie in popularMovies) {
-                [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
-                    
-                    movie.posterImageData = imageData;
-                }];
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
         }
     });
 }
@@ -157,10 +176,22 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         for (MainScreenMovie * movie in playingNowMovies) {
-                [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
-                    
-                    movie.posterImageData = imageData;
-                }];
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
+        }
+    });
+}
+
+- (void) downloadUpcomingPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in upcomingMovies) {
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
         }
     });
 }
@@ -172,6 +203,11 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         cell.moviesCollectionView.delegate = self;
         cell.moviesCollectionView.dataSource = self;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.moviesCollectionView reloadData];
+        });
+        
         cell.moviesCollectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
         cell.moviesCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -401,12 +437,47 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 }
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return [upcomingMovies count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
+    
+    MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
+    
+    newMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+    
+    [[cell titleLabel] setText: [newMovie title]];
+
+    NSNumber *voteAverage = [newMovie voteAverage];
+    NSString *posterPath = [newMovie posterPath];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    formatter.minimumFractionDigits = 0;
+    formatter.maximumFractionDigits = 2;
+    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+    
+    if (newMovie.posterImageData == nil) {
+        NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+        [[cell posterImage] setImage: [UIImage imageWithData: posterImageData]];
+    }
+    
+    else {
+        [[cell posterImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+    }
+    
+    cell.movieId = [newMovie movieId];
+    
+    [[[cell posterImage] layer] setCornerRadius: 10];
+    
+    [[cell titleLabel] setText: [newMovie title]];
+    
+    [[cell ratingLabel] setText: ratingString];
     
     return cell;
 }
