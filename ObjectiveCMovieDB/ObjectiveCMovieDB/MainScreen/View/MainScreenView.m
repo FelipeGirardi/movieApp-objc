@@ -194,7 +194,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         else if ([indexPath section] == 2 && self.isSearchActive == false) {
             newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
-
         else {
             newMovie = [searchMovies objectAtIndex: [indexPath row]];
         }
@@ -239,7 +238,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     if (section == 0) {
         if(!self.isSearchActive) {
-            //return [popularMovies count];
             return 1;
         }
         else {
@@ -248,7 +246,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }
     else if (section == 1) {
         if(!self.isSearchActive) {
-            //return [popularMovies count];
             return [popularMovies count];
         }
         else {
@@ -312,7 +309,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if(!self.isShowingFooter) {
+    if(!self.isShowingFooter || section == 0) {
         return [[UIView alloc] initWithFrame:CGRectZero];
     }
     else {
@@ -320,10 +317,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
         [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
         
-        if(section == 0) {
+        if(section == 1) {
         [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else if(section == 1) {
+        else if(section == 2) {
             [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
         
