@@ -42,7 +42,6 @@ class ListPresenter {
     
     var requestState: ViewControllerState?
     var listViewController: ListViewController?
-   // var listViewController: ListViewControllerDelegate? = ListViewController()
     
     func updateViewControllerStatus(){
         if (popularMoviesList.count > 0) /*&& nowPlaying.count > 0*/{

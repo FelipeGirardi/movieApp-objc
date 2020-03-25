@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8006411C2423F27D00805F0F /* MainScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 800641162423F27D00805F0F /* MainScreenView.m */; };
 		8006411D2423F27D00805F0F /* MainScreenStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 800641172423F27D00805F0F /* MainScreenStoryboard.storyboard */; };
+		8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8043B37D242A8ACF00648A15 /* MoviesCollectionViewTableCell.m */; };
+		8065FC1A242A8CC7007C5778 /* MoviesCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */; };
 		80879F38241FF977006B5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F37241FF977006B5BBD /* AppDelegate.m */; };
 		80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3A241FF977006B5BBD /* SceneDelegate.m */; };
 		80879F3E241FF977006B5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3D241FF977006B5BBD /* ViewController.m */; };
@@ -69,6 +71,10 @@
 		800641122423F27D00805F0F /* MoviesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviesTableCell.h; sourceTree = "<group>"; };
 		800641162423F27D00805F0F /* MainScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenView.m; sourceTree = "<group>"; };
 		800641172423F27D00805F0F /* MainScreenStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainScreenStoryboard.storyboard; sourceTree = "<group>"; };
+		8043B37D242A8ACF00648A15 /* MoviesCollectionViewTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MoviesCollectionViewTableCell.m; path = CollectionView/MoviesCollectionViewTableCell.m; sourceTree = "<group>"; };
+		8043B37F242A8AE200648A15 /* MoviesCollectionViewTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionViewTableCell.h; sourceTree = "<group>"; };
+		8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesCollectionCell.m; sourceTree = "<group>"; };
+		8065FC1B242A8CD2007C5778 /* MoviesCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionCell.h; sourceTree = "<group>"; };
 		80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectiveCMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80879F36241FF977006B5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80879F37241FF977006B5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -186,6 +192,8 @@
 				800641102423F27D00805F0F /* MainScreenView.h */,
 				800641122423F27D00805F0F /* MoviesTableCell.h */,
 				8096C732242531490071940A /* MoviesList.h */,
+				8043B37F242A8AE200648A15 /* MoviesCollectionViewTableCell.h */,
+				8065FC1B242A8CD2007C5778 /* MoviesCollectionCell.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -193,7 +201,9 @@
 		800641112423F27D00805F0F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8043B380242A8BE300648A15 /* CollectionView */,
 				808FB8772423F37200341901 /* MoviesTableCell.m */,
+				8043B37D242A8ACF00648A15 /* MoviesCollectionViewTableCell.m */,
 				8096C72F2425313A0071940A /* MoviesList.m */,
 			);
 			path = Model;
@@ -206,6 +216,14 @@
 				800641172423F27D00805F0F /* MainScreenStoryboard.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8043B380242A8BE300648A15 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 		80879F2A241FF977006B5BBD = {
@@ -505,10 +523,12 @@
 				808FB8782423F37200341901 /* MoviesTableCell.m in Sources */,
 				80879F3E241FF977006B5BBD /* ViewController.m in Sources */,
 				8006411C2423F27D00805F0F /* MainScreenView.m in Sources */,
+				8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */,
 				80879F38241FF977006B5BBD /* AppDelegate.m in Sources */,
 				80879F49241FF979006B5BBD /* main.m in Sources */,
 				C06C18A524228B8E00460D4A /* MovieDetailsAPIRequest.m in Sources */,
 				8096C72C242530F80071940A /* MainScreenNetwork.m in Sources */,
+				8065FC1A242A8CC7007C5778 /* MoviesCollectionCell.m in Sources */,
 				8096C7302425313A0071940A /* MoviesList.m in Sources */,
 				C06C18A724228BA700460D4A /* MovieDetailsModel.m in Sources */,
 				80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */,

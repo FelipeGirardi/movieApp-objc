@@ -16,6 +16,8 @@
 
 - (void) getDataFrom: (NSString *) url completion: (void(^)(NSMutableArray * moviesList)) callback;
 
+- (void) downloadImage: (NSString *) imageURL completion: (void(^) (NSData * imageData)) callback;
+
 + (instancetype) instantiateNetwork;
 
 - (id) initNetwork;

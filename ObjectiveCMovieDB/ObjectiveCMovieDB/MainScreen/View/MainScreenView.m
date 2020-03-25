@@ -12,6 +12,9 @@
 #import "MainScreenNetwork.h"
 #import "MoviesList.h"
 #import "MovieDetailsViewController.h"
+#import "MovieDetailsAPIRequest.h"
+#import "MoviesCollectionViewTableCell.h"
+#import "MoviesCollectionCell.h"
 
 
 @interface MainScreenView ()
@@ -28,6 +31,7 @@
 
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
+- (void) upcomingMoviesRequest;
 - (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term;
 
 @end
@@ -41,6 +45,7 @@
 MainScreenNetwork *network = nil;
 NSMutableArray<MainScreenMovie*> *popularMovies = nil;
 NSMutableArray<MainScreenMovie*> *playingNowMovies = nil;
+NSMutableArray<MainScreenMovie*> *upcomingMovies = nil;
 NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (void) viewDidLoad {
@@ -69,6 +74,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     popularMovies = NSMutableArray.new;
     playingNowMovies = NSMutableArray.new;
+    upcomingMovies = NSMutableArray.new;
     searchMovies = NSMutableArray.new;
     network = MainScreenNetwork.instantiateNetwork;
     
@@ -80,6 +86,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     // API Requests
     [self popularMoviesRequest: self.currentPopularMoviesPage];
     [self nowPlayingMoviesRequest: self.currentNowPlayingMoviesPage];
+    [self upcomingMoviesRequest];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -102,6 +109,8 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         [popularMovies addObjectsFromArray: moviesList];
 
+        [self downloadPopularMoviesPosters];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_loadingIndicator stopAnimating];
             self->_moviesTableView.dataSource = self;
@@ -120,10 +129,27 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         [playingNowMovies addObjectsFromArray: moviesList];
 
+        [self downloadPlayingNowPosters];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
+    }];
+}
+
+- (void) upcomingMoviesRequest {
+    
+    NSString *urlString = @"https://api.themoviedb.org/3/movie/upcoming?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1";
+    
+    [network getDataFrom:urlString completion:^ (NSMutableArray * moviesList) {
+       
+        [upcomingMovies addObjectsFromArray: moviesList];
         
+        [self downloadUpcomingPosters];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_moviesTableView reloadData];
+        });
     }];
 }
 
@@ -133,61 +159,128 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
 }
+
+- (void) downloadPopularMoviesPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in popularMovies) {
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
+        }
+    });
+}
+
+- (void) downloadPlayingNowPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in playingNowMovies) {
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
+        }
+    });
+}
+
+- (void) downloadUpcomingPosters {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for (MainScreenMovie * movie in upcomingMovies) {
+            [network downloadImage: [movie posterPath] completion: ^(NSData * imageData) {
+                
+                movie.posterImageData = imageData;
+            }];
+        }
+    });
+}
  
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    MoviesTableCell *cell = (MoviesTableCell *)[tableView dequeueReusableCellWithIdentifier:@"movieCell"];
-    
-    if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"movieCell" owner:self options:nil];
-        cell = [nib objectAtIndex: 0];
+    if ([indexPath section] == 0 && !self.isSearchActive) {
+        MoviesCollectionViewTableCell * cell = (MoviesCollectionViewTableCell *) [tableView dequeueReusableCellWithIdentifier:@"upcomingMoviesCollectionCell"];
+        
+        cell.moviesCollectionView.delegate = self;
+        cell.moviesCollectionView.dataSource = self;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.moviesCollectionView reloadData];
+        });
+        
+        cell.moviesCollectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
+        cell.moviesCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        return cell;
     }
     
-    MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
-    
-    if ([indexPath section] == 0) {
-        if(!self.isSearchActive) {
+    else {
+        MoviesTableCell *cell = (MoviesTableCell *)[tableView dequeueReusableCellWithIdentifier:@"movieCell"];
+        
+        if (cell == nil) {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"movieCell" owner:self options:nil];
+            cell = [nib objectAtIndex: 0];
+        }
+        
+        MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
+        
+        if ([indexPath section] == 1 && self.isSearchActive == false) {
             newMovie = [popularMovies objectAtIndex: [indexPath row]];
+        }
+        else if ([indexPath section] == 2 && self.isSearchActive == false) {
+            newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
         else {
             newMovie = [searchMovies objectAtIndex: [indexPath row]];
         }
-    }
-    else if ([indexPath section] == 1 && !self.isSearchActive) {
-        newMovie = [playingNowMovies objectAtIndex: [indexPath row]];
-    }
-    
-    NSNumber *voteAverage = [newMovie voteAverage];
-    NSString *posterPath = [newMovie posterPath];
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
-    formatter.minimumFractionDigits = 0;
-    formatter.maximumFractionDigits = 2;
-    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
-    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
-    
-    NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
-    
-    cell.movieId = [newMovie movieId];
-    
-    [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
-    [[[cell movieImage] layer] setCornerRadius: 10];
-    
-    [[cell movieTitleLabel] setText: [newMovie title]];
+        
+        NSNumber *voteAverage = [newMovie voteAverage];
+        NSString *posterPath = [newMovie posterPath];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+        formatter.minimumFractionDigits = 0;
+        formatter.maximumFractionDigits = 2;
+        [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+        NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+        
+        if (newMovie.posterImageData == nil) {
+            NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+            NSURL *url = [NSURL URLWithString:urlString];
+            NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+            [[cell movieImage] setImage: [UIImage imageWithData: posterImageData]];
+        }
+        
+        else {
+            [[cell movieImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+        }
 
-    [[cell movieDescriptionLabel] setText: [newMovie overview]];
-    
-    [[cell movieRatingLabel] setText: ratingString];
+        
+        cell.movieId = [newMovie movieId];
+        
+        [[[cell movieImage] layer] setCornerRadius: 10];
+        
+        [[cell movieTitleLabel] setText: [newMovie title]];
 
-    return cell;
+        [[cell movieDescriptionLabel] setText: [newMovie overview]];
+        
+        [[cell movieRatingLabel] setText: ratingString];
+
+        return cell;
+    }
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 0) {
+        if(!self.isSearchActive) {
+            return 1;
+        }
+        else {
+            return [searchMovies count];
+        }
+    }
+    else if (section == 1) {
         if(!self.isSearchActive) {
             return [popularMovies count];
         }
@@ -196,14 +289,14 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         }
     }
     else {
-        return section == 1 && !self.isSearchActive ? [playingNowMovies count] : 0;
+        return section == 2 && !self.isSearchActive ? [playingNowMovies count] : 0;
     }
 
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.isSearchActive == false ? 2 : 1;
+    return self.isSearchActive == false ? 3 : 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -225,14 +318,18 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [sectionView setBackgroundColor: [UIColor whiteColor]];
     
     if (section == 0) {
-        if(!self.isSearchActive) {
+        title = @"Upcoming Movies";
+    }
+    
+    if (section == 1) {
+        if(self.isSearchActive == false) {
             title = @"Popular Movies";
         } else {
             title = @"Search Results";
         }
     }
     
-    else if (section == 1 && !self.isSearchActive) {
+    else if (section == 2 && !self.isSearchActive) {
          title = @"Playing Now";
     }
     
@@ -248,7 +345,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if(!self.isShowingFooter) {
+    if(!self.isShowingFooter || section == 0) {
         return [[UIView alloc] initWithFrame:CGRectZero];
     }
     else {
@@ -256,10 +353,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
         [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
         
-        if(section == 0) {
+        if(section == 1) {
         [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else if(section == 1) {
+        else if(section == 2) {
             [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -300,23 +397,25 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if (indexPath.section == 0) {
-        if(!self.isSearchActive) {
-            selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
+    if (indexPath.section != 0) {
+        if (indexPath.section == 1) {
+            if(!self.isSearchActive) {
+                selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
+            }
+            else {
+                selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+            }
         }
-        else {
-            selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+        
+        else if (indexPath.section == 2) {
+            selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
+        
+        NSNumber *movieIdNumber = [selectedMovie movieId];
+        self.selectedMovieID = [movieIdNumber intValue];
+        
+        [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
     }
-    
-    else if (indexPath.section == 1) {
-        selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
-    }
-    
-    NSNumber *movieIdNumber = [selectedMovie movieId];
-    self.selectedMovieID = [movieIdNumber intValue];
-    
-    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -339,6 +438,56 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }
 }
 
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [upcomingMovies count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
+    
+    MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
+    
+    newMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+    
+    [[cell titleLabel] setText: [newMovie title]];
+
+    NSNumber *voteAverage = [newMovie voteAverage];
+    NSString *posterPath = [newMovie posterPath];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    formatter.minimumFractionDigits = 0;
+    formatter.maximumFractionDigits = 2;
+    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+    
+    if (newMovie.posterImageData == nil) {
+        NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+        [[cell posterImage] setImage: [UIImage imageWithData: posterImageData]];
+    }
+    
+    else {
+        [[cell posterImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+    }
+    
+    cell.movieId = [newMovie movieId];
+    
+    [[[cell posterImage] layer] setCornerRadius: 10];
+    
+    [[cell titleLabel] setText: [newMovie title]];
+    
+    [[cell ratingLabel] setText: ratingString];
+    
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(122, 240);
+}
+
 - (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term {
     NSString *searchUrlString = [NSString stringWithFormat: @"%s%@%s%d", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", term, "&page=", searchMoviesPage];
     
@@ -348,6 +497,23 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
             [self->_moviesTableView reloadData];
         });
     }];
+}
+
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MainScreenMovie *selectedMovie = nil;
+    
+    if(!self.isSearchActive) {
+        selectedMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+    }
+    else {
+        selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+    }
+    
+    NSNumber *movieIdNumber = [selectedMovie movieId];
+    self.selectedMovieID = [movieIdNumber intValue];
+    
+    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 @end
