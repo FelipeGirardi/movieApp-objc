@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *overviewLabel;
 @property (weak, nonatomic) IBOutlet UITextView *overviewTextView;
+@property(nonatomic) UIActivityIndicatorView* loadingIndicator;
 
 // Function to update movie details UI
 - (void) updateMovieDetailsUI: (QTMovieDetails*) movieDetails;
@@ -30,16 +31,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
     _overviewTextView.textContainerInset = UIEdgeInsetsMake(0, -5, 0, 0);
     _posterImageView.layer.cornerRadius = 10.0;
+    _starImageView.hidden = true;
+    _overviewLabel.hidden = true;
     
-    // Call API request for movie details and store them in self.movieDetails (uncomment for request)
+    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 200);
+    CGRect loadingFrame = _loadingIndicator.frame;
+    loadingFrame.size.width = 35.0f;
+    loadingFrame.size.height = 35.0f;
+    _loadingIndicator.frame = loadingFrame;
+    _loadingIndicator.hidesWhenStopped = true;
+    [_loadingIndicator startAnimating];
+    [self.view addSubview: _loadingIndicator];
+    [self.view bringSubviewToFront:_loadingIndicator];
     
+    // Call API request for movie details
     [MovieDetailsAPIRequest fetchMovieByID: self.movieId completeBlock:^(QTMovieDetails * movieDetails){
 
         __weak typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^(void){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_loadingIndicator stopAnimating];
+            self->_starImageView.hidden = false;
+            self->_overviewLabel.hidden = false;
             [weakSelf updateMovieDetailsUI: movieDetails];
         });
     }];
@@ -65,7 +80,14 @@
     genresString = [genresString stringByAppendingString: movieDetails.genres[movieDetails.genres.count-1].name];
     self.genreLabel.text = genresString;
     
-    self.ratingLabel.text = movieDetails.voteAverage.stringValue;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    formatter.minimumFractionDigits = 0;
+    formatter.maximumFractionDigits = 2;
+    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[movieDetails.voteAverage floatValue]]];
+    
+    self.ratingLabel.text = ratingString;
     self.overviewTextView.text = movieDetails.overview;
 }
 
