@@ -49,23 +49,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     self->_moviesTableView.delegate = self;
     _moviesTableView.sectionHeaderHeight = 50;
     _isShowingFooter = false;
-    
     _moviesSearchBar.delegate = self;
     
     [self setNavigationBar];
-    _moviesSearchBar.userInteractionEnabled = false;
-    _moviesTableView.sectionFooterHeight = 0.0;
-    
-    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
-    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 20);
-    CGRect loadingFrame = _loadingIndicator.frame;
-    loadingFrame.size.width = 35.0f;
-    loadingFrame.size.height = 35.0f;
-    _loadingIndicator.frame = loadingFrame;
-    _loadingIndicator.hidesWhenStopped = true;
-    [_loadingIndicator startAnimating];
-    [_moviesTableView addSubview: _loadingIndicator];
-    [_moviesTableView bringSubviewToFront:_loadingIndicator];
+    [self setLoadingIndicator];
     
     popularMovies = NSMutableArray.new;
     playingNowMovies = NSMutableArray.new;
@@ -130,8 +117,23 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 - (void) setNavigationBar {
     
     self.title = @"Movies";
-    
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    _moviesSearchBar.userInteractionEnabled = false;
+    _moviesSearchBar.layer.borderWidth = 1;
+    _moviesSearchBar.layer.borderColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0].CGColor;
+}
+
+- (void) setLoadingIndicator {
+    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 20);
+    CGRect loadingFrame = _loadingIndicator.frame;
+    loadingFrame.size.width = 35.0f;
+    loadingFrame.size.height = 35.0f;
+    _loadingIndicator.frame = loadingFrame;
+    _loadingIndicator.hidesWhenStopped = true;
+    [_loadingIndicator startAnimating];
+    [_moviesTableView addSubview: _loadingIndicator];
+    [_moviesTableView bringSubviewToFront:_loadingIndicator];
 }
  
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
