@@ -351,7 +351,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if(!self.isShowingFooter || section == 0) {
+    if(!self.isShowingFooter || (section == 0 && !self.isSearchActive)) {
         return [[UIView alloc] initWithFrame:CGRectZero];
     }
     else {
@@ -359,7 +359,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         UIButton *showMoreButton=[UIButton buttonWithType:UIButtonTypeCustom];
         [showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
         
-        if(section == 1) {
+        if(section == 0 || section == 1) {
         [showMoreButton addTarget:self action:@selector(showMorePopularMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
         else if(section == 2) {
