@@ -15,7 +15,7 @@
 #import "MovieDetailsAPIRequest.h"
 #import "MoviesCollectionViewTableCell.h"
 #import "MoviesCollectionCell.h"
-
+#import "ButtonCollectionCell.h"
 
 @interface MainScreenView ()
 
@@ -25,13 +25,15 @@
 @property(nonatomic) int currentPopularMoviesPage;
 @property(nonatomic) int currentNowPlayingMoviesPage;
 @property(nonatomic) int currentSearchMoviesPage;
+@property(nonatomic) int currentUpcomingMoviesPage;
 @property(nonatomic) NSString* currentSearchTerm;
 @property(nonatomic) UIActivityIndicatorView* loadingIndicator;
 @property(nonatomic) BOOL isShowingFooter;
+@property(nonatomic) BOOL isUpcomingMoviesRequestComplete;
 
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
-- (void) upcomingMoviesRequest;
+- (void) upcomingMoviesRequest: (int)currentUpcomingMoviesPage;
 - (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term;
 
 @end
@@ -69,11 +71,13 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     self.currentPopularMoviesPage = 1;
     self.currentNowPlayingMoviesPage = 1;
     self.currentSearchMoviesPage = 1;
+    self.currentUpcomingMoviesPage = 1;
+    self.isUpcomingMoviesRequestComplete = false;
     
     // API Requests
     [self popularMoviesRequest: self.currentPopularMoviesPage];
     [self nowPlayingMoviesRequest: self.currentNowPlayingMoviesPage];
-    [self upcomingMoviesRequest];
+    [self upcomingMoviesRequest: self.currentUpcomingMoviesPage];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -124,9 +128,8 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }];
 }
 
-- (void) upcomingMoviesRequest {
-    
-    NSString *urlString = @"https://api.themoviedb.org/3/movie/upcoming?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1";
+- (void) upcomingMoviesRequest: (int)currentUpcomingMoviesPage {
+    NSString *urlString  = [NSString stringWithFormat:@"%s%d","https://api.themoviedb.org/3/movie/upcoming?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=", currentUpcomingMoviesPage];
     
     [network getDataFrom:urlString completion:^ (NSMutableArray * moviesList) {
        
@@ -135,6 +138,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         [self downloadUpcomingPosters];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.isUpcomingMoviesRequestComplete = true;
             [self->_moviesTableView reloadData];
         });
     }];
@@ -363,9 +367,8 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         }
         
         [showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        showMoreButton.frame=CGRectMake(0, 0, 130, 30);
+        showMoreButton.frame=CGRectMake(0, 0, 120, 30);
         showMoreButton.center = footerView.center;
-        
         showMoreButton.clipsToBounds = YES;
         showMoreButton.layer.cornerRadius = 10.0f;
         showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
@@ -440,50 +443,75 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }
 }
 
+- (IBAction)showMoreButtonAction:(UIButton *)sender {
+    self.currentUpcomingMoviesPage += 1;
+    [self upcomingMoviesRequest: self.currentUpcomingMoviesPage];
+}
+
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [upcomingMovies count];
+    return [upcomingMovies count] + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
-    
-    MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
-    
-    newMovie = [upcomingMovies objectAtIndex: [indexPath row]];
-    
-    [[cell titleLabel] setText: [newMovie title]];
-
-    NSNumber *voteAverage = [newMovie voteAverage];
-    NSString *posterPath = [newMovie posterPath];
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
-    formatter.minimumFractionDigits = 0;
-    formatter.maximumFractionDigits = 2;
-    [formatter setRoundingMode:NSNumberFormatterRoundFloor];
-    NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
-    
-    if (newMovie.posterImageData == nil) {
-        NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
-        [[cell posterImage] setImage: [UIImage imageWithData: posterImageData]];
+    if(indexPath.item == upcomingMovies.count) {
+        ButtonCollectionCell * cell = (ButtonCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"showMoreButtonCell" forIndexPath:indexPath];
+        
+        if(self.isUpcomingMoviesRequestComplete) {
+            cell.showMoreButton.hidden = false;
+            [cell.showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
+            [cell.showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            cell.showMoreButton.frame = CGRectMake(0, 80, 120, 30);
+            cell.showMoreButton.clipsToBounds = YES;
+            cell.showMoreButton.layer.cornerRadius = 10.0f;
+            cell.showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
+            cell.showMoreButton.layer.borderWidth = 2.0f;
+        }
+        else {
+            cell.showMoreButton.hidden = true;
+        }
+        return cell;
     }
-    
     else {
-        [[cell posterImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+        MoviesCollectionCell * cell = (MoviesCollectionCell *) [collectionView dequeueReusableCellWithReuseIdentifier: @"upcomingCell" forIndexPath:indexPath];
+        
+        MainScreenMovie *newMovie = [[MainScreenMovie alloc] init];
+        
+        newMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+        
+        [[cell titleLabel] setText: [newMovie title]];
+
+        NSNumber *voteAverage = [newMovie voteAverage];
+        NSString *posterPath = [newMovie posterPath];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle: NSNumberFormatterDecimalStyle];
+        formatter.minimumFractionDigits = 0;
+        formatter.maximumFractionDigits = 2;
+        [formatter setRoundingMode:NSNumberFormatterRoundFloor];
+        NSString* ratingString = [formatter stringFromNumber:[NSNumber numberWithFloat:[voteAverage floatValue]]];
+        
+        if (newMovie.posterImageData == nil) {
+            NSString *urlString = [NSString stringWithFormat: @"%s%@", "https://image.tmdb.org/t/p/w500", posterPath];
+            NSURL *url = [NSURL URLWithString:urlString];
+            NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
+            [[cell posterImage] setImage: [UIImage imageWithData: posterImageData]];
+        }
+        
+        else {
+            [[cell posterImage] setImage: [UIImage imageWithData: [newMovie posterImageData]]];
+        }
+        
+        cell.movieId = [newMovie movieId];
+        
+        [[[cell posterImage] layer] setCornerRadius: 10];
+        
+        [[cell titleLabel] setText: [newMovie title]];
+        
+        [[cell ratingLabel] setText: ratingString];
+        
+        return cell;
     }
-    
-    cell.movieId = [newMovie movieId];
-    
-    [[[cell posterImage] layer] setCornerRadius: 10];
-    
-    [[cell titleLabel] setText: [newMovie title]];
-    
-    [[cell ratingLabel] setText: ratingString];
-    
-    return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -505,17 +533,19 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if(!self.isSearchActive) {
-        selectedMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+    if(indexPath.item != upcomingMovies.count) {
+        if(!self.isSearchActive) {
+            selectedMovie = [upcomingMovies objectAtIndex: [indexPath row]];
+        }
+        else {
+            selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+        }
+        
+        NSNumber *movieIdNumber = [selectedMovie movieId];
+        self.selectedMovieID = [movieIdNumber intValue];
+        
+        [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
     }
-    else {
-        selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
-    }
-    
-    NSNumber *movieIdNumber = [selectedMovie movieId];
-    self.selectedMovieID = [movieIdNumber intValue];
-    
-    [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
 }
 
 @end
