@@ -37,7 +37,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2t3-ok-JfT">
-                                <rect key="frame" x="0.0" y="132" width="414" height="764"/>
+                                <rect key="frame" x="0.0" y="148" width="414" height="748"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="upcomingMoviesCollectionCell" id="26h-KA-Mvh" customClass="MoviesCollectionViewTableCell">
@@ -200,8 +200,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="bZE-5y-Pul">
-                                <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="bZE-5y-Pul">
+                                <rect key="frame" x="7" y="96" width="400" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="q9f-4V-iDU"/>
                                 </constraints>
@@ -211,13 +211,14 @@
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="bZE-5y-Pul" firstAttribute="trailing" secondItem="YBG-hT-bQX" secondAttribute="trailing" id="8KN-WR-BJs"/>
                             <constraint firstItem="YBG-hT-bQX" firstAttribute="trailing" secondItem="2t3-ok-JfT" secondAttribute="trailing" id="Ciy-TB-IJv"/>
+                            <constraint firstItem="YBG-hT-bQX" firstAttribute="trailing" secondItem="bZE-5y-Pul" secondAttribute="trailing" constant="7" id="L5x-uq-6HM"/>
+                            <constraint firstItem="bZE-5y-Pul" firstAttribute="centerX" secondItem="hGP-GO-XbP" secondAttribute="centerX" id="TZn-lf-hyj"/>
                             <constraint firstItem="2t3-ok-JfT" firstAttribute="leading" secondItem="YBG-hT-bQX" secondAttribute="leading" id="Y7k-Xk-b53"/>
-                            <constraint firstItem="bZE-5y-Pul" firstAttribute="leading" secondItem="YBG-hT-bQX" secondAttribute="leading" id="dSe-cB-Rjs"/>
+                            <constraint firstItem="bZE-5y-Pul" firstAttribute="leading" secondItem="YBG-hT-bQX" secondAttribute="leading" constant="7" id="kdY-pk-rK5"/>
                             <constraint firstAttribute="bottom" secondItem="2t3-ok-JfT" secondAttribute="bottom" id="mn5-ZU-Kf1"/>
-                            <constraint firstItem="2t3-ok-JfT" firstAttribute="top" secondItem="bZE-5y-Pul" secondAttribute="bottom" id="on4-dG-EK7"/>
-                            <constraint firstItem="bZE-5y-Pul" firstAttribute="top" secondItem="YBG-hT-bQX" secondAttribute="top" id="yta-jh-BVl"/>
+                            <constraint firstItem="2t3-ok-JfT" firstAttribute="top" secondItem="bZE-5y-Pul" secondAttribute="bottom" constant="8" id="on4-dG-EK7"/>
+                            <constraint firstItem="bZE-5y-Pul" firstAttribute="top" secondItem="YBG-hT-bQX" secondAttribute="top" constant="8" id="yta-jh-BVl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YBG-hT-bQX"/>
                     </view>
@@ -240,7 +241,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H1x-xE-jKc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="109" y="-68"/>
+            <point key="canvasLocation" x="110" y="-75"/>
         </scene>
     </scenes>
     <resources>
