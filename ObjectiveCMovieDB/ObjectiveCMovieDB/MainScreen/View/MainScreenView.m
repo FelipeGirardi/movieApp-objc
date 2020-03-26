@@ -366,12 +366,14 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
             [showMoreButton addTarget:self action:@selector(showMoreNowPlayingMoviesButton:) forControlEvents:UIControlEventTouchUpInside];
         }
         
-        [showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [showMoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        showMoreButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
         showMoreButton.frame=CGRectMake(0, 0, 120, 30);
         showMoreButton.center = footerView.center;
         showMoreButton.clipsToBounds = YES;
         showMoreButton.layer.cornerRadius = 10.0f;
-        showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
+        showMoreButton.layer.borderColor = [UIColor colorWithRed:241.0/255.0 green:70.0/255.0 blue:33.0/255.0 alpha:1.0].CGColor;
+        showMoreButton.layer.backgroundColor = [UIColor colorWithRed:241.0/255.0 green:70.0/255.0 blue:33.0/255.0 alpha:1.0].CGColor;
         showMoreButton.layer.borderWidth = 2.0f;
         
         [footerView addSubview:showMoreButton];
@@ -460,11 +462,13 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         if(self.isUpcomingMoviesRequestComplete) {
             cell.showMoreButton.hidden = false;
             [cell.showMoreButton setTitle:@"Show more" forState:UIControlStateNormal];
-            [cell.showMoreButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [cell.showMoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.showMoreButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
             cell.showMoreButton.frame = CGRectMake(0, 80, 120, 30);
             cell.showMoreButton.clipsToBounds = YES;
             cell.showMoreButton.layer.cornerRadius = 10.0f;
-            cell.showMoreButton.layer.borderColor = [UIColor blackColor].CGColor;
+            cell.showMoreButton.layer.borderColor = [UIColor colorWithRed:241.0/255.0 green:70.0/255.0 blue:33.0/255.0 alpha:1.0].CGColor;
+            cell.showMoreButton.layer.backgroundColor = [UIColor colorWithRed:241.0/255.0 green:70.0/255.0 blue:33.0/255.0 alpha:1.0].CGColor;
             cell.showMoreButton.layer.borderWidth = 2.0f;
         }
         else {
