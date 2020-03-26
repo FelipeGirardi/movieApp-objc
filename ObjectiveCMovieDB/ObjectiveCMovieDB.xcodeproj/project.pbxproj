@@ -11,6 +11,8 @@
 		8006411D2423F27D00805F0F /* MainScreenStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 800641172423F27D00805F0F /* MainScreenStoryboard.storyboard */; };
 		8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8043B37D242A8ACF00648A15 /* MoviesCollectionViewTableCell.m */; };
 		8065FC1A242A8CC7007C5778 /* MoviesCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */; };
+		8066B479242D471D008599BA /* NetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8066B478242D471D008599BA /* NetworkTests.m */; };
+		8066B47A242D471E008599BA /* NetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8066B478242D471D008599BA /* NetworkTests.m */; };
 		80879F38241FF977006B5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F37241FF977006B5BBD /* AppDelegate.m */; };
 		80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3A241FF977006B5BBD /* SceneDelegate.m */; };
 		80879F3E241FF977006B5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3D241FF977006B5BBD /* ViewController.m */; };
@@ -75,6 +77,8 @@
 		8043B37F242A8AE200648A15 /* MoviesCollectionViewTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionViewTableCell.h; sourceTree = "<group>"; };
 		8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesCollectionCell.m; sourceTree = "<group>"; };
 		8065FC1B242A8CD2007C5778 /* MoviesCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionCell.h; sourceTree = "<group>"; };
+		8066B477242D4710008599BA /* NetworkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkTests.h; sourceTree = "<group>"; };
+		8066B478242D471D008599BA /* NetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkTests.m; sourceTree = "<group>"; };
 		80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectiveCMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80879F36241FF977006B5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80879F37241FF977006B5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -226,6 +230,15 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		8066B476242D46FC008599BA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8066B477242D4710008599BA /* NetworkTests.h */,
+				8066B478242D471D008599BA /* NetworkTests.m */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		80879F2A241FF977006B5BBD = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +261,7 @@
 		80879F35241FF977006B5BBD /* ObjectiveCMovieDB */ = {
 			isa = PBXGroup;
 			children = (
+				8066B476242D46FC008599BA /* Tests */,
 				800641092423F27D00805F0F /* MainScreen */,
 				C06C189F24228A3B00460D4A /* Movie Details Screen */,
 				80879F36241FF977006B5BBD /* AppDelegate.h */,
@@ -521,6 +535,7 @@
 			files = (
 				C00EB5B924200C70000E0D2B /* MovieDetailsViewController.m in Sources */,
 				808FB8782423F37200341901 /* MoviesTableCell.m in Sources */,
+				8066B479242D471D008599BA /* NetworkTests.m in Sources */,
 				80879F3E241FF977006B5BBD /* ViewController.m in Sources */,
 				8006411C2423F27D00805F0F /* MainScreenView.m in Sources */,
 				8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */,
@@ -555,6 +570,7 @@
 				8096C721242526D30071940A /* MovieDetailViewController.swift in Sources */,
 				8096C71E242526D30071940A /* MovieDetailWorker.swift in Sources */,
 				8096C706242526D30071940A /* ShowAllWorker.swift in Sources */,
+				8066B47A242D471E008599BA /* NetworkTests.m in Sources */,
 				8096C70F242526D30071940A /* SeparatorCell.swift in Sources */,
 				8096C71C242526D30071940A /* HeaderCell.swift in Sources */,
 				8096C70A242526D30071940A /* ListViewController.swift in Sources */,
