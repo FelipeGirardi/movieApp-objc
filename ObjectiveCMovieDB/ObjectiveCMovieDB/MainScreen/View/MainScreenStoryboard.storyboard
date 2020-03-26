@@ -61,7 +61,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="upcomingCell" id="N4a-C7-xUL" customClass="MoviesCollectionCell">
-                                                            <rect key="frame" x="0.0" y="-11" width="122" height="242"/>
+                                                            <rect key="frame" x="10" y="0.0" width="122" height="242"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sfi-Xd-2cM">
                                                                 <rect key="frame" x="0.0" y="0.0" width="122" height="242"/>
@@ -115,6 +115,27 @@
                                                                 <outlet property="ratingLabel" destination="OYg-Pg-1Hz" id="W7k-Kg-WUI"/>
                                                                 <outlet property="starImage" destination="yOf-Fq-0G2" id="Jt6-Ye-tiU"/>
                                                                 <outlet property="titleLabel" destination="sUp-BV-wB3" id="aWG-Io-ory"/>
+                                                            </connections>
+                                                        </collectionViewCell>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="showMoreButtonCell" id="KSP-iH-di7" customClass="ButtonCollectionCell">
+                                                            <rect key="frame" x="142" y="0.0" width="122" height="220"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CuW-dH-Xq4">
+                                                                <rect key="frame" x="0.0" y="0.0" width="122" height="220"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8R-es-A0O">
+                                                                        <rect key="frame" x="46" y="95" width="30" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <connections>
+                                                                            <action selector="showMoreButtonAction:" destination="Loh-U6-VY0" eventType="touchUpInside" id="cY3-yx-HVm"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                            </collectionViewCellContentView>
+                                                            <size key="customSize" width="122" height="220"/>
+                                                            <connections>
+                                                                <outlet property="showMoreButton" destination="F8R-es-A0O" id="gjR-pY-Pvt"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>

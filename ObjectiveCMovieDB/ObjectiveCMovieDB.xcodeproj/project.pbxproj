@@ -64,6 +64,7 @@
 		C00EB5B924200C70000E0D2B /* MovieDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00EB5B824200C70000E0D2B /* MovieDetailsViewController.m */; };
 		C06C18A524228B8E00460D4A /* MovieDetailsAPIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C06C18A424228B8E00460D4A /* MovieDetailsAPIRequest.m */; };
 		C06C18A724228BA700460D4A /* MovieDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C06C18A624228BA700460D4A /* MovieDetailsModel.m */; };
+		C07F6FC6242D229E00DC8E1E /* ButtonCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F6FC5242D229E00DC8E1E /* ButtonCollectionCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +140,8 @@
 		C06C18A624228BA700460D4A /* MovieDetailsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieDetailsModel.m; sourceTree = "<group>"; };
 		C06C18A824228D8800460D4A /* MovieDetailsAPIRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieDetailsAPIRequest.h; sourceTree = "<group>"; };
 		C06C18A9242291EF00460D4A /* MovieDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieDetailsModel.h; sourceTree = "<group>"; };
+		C07F6FC4242D221C00DC8E1E /* ButtonCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonCollectionCell.h; sourceTree = "<group>"; };
+		C07F6FC5242D229E00DC8E1E /* ButtonCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonCollectionCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +197,7 @@
 				8096C732242531490071940A /* MoviesList.h */,
 				8043B37F242A8AE200648A15 /* MoviesCollectionViewTableCell.h */,
 				8065FC1B242A8CD2007C5778 /* MoviesCollectionCell.h */,
+				C07F6FC4242D221C00DC8E1E /* ButtonCollectionCell.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -222,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */,
+				C07F6FC5242D229E00DC8E1E /* ButtonCollectionCell.m */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 				80879F3E241FF977006B5BBD /* ViewController.m in Sources */,
 				8006411C2423F27D00805F0F /* MainScreenView.m in Sources */,
 				8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */,
+				C07F6FC6242D229E00DC8E1E /* ButtonCollectionCell.m in Sources */,
 				80879F38241FF977006B5BBD /* AppDelegate.m in Sources */,
 				80879F49241FF979006B5BBD /* main.m in Sources */,
 				C06C18A524228B8E00460D4A /* MovieDetailsAPIRequest.m in Sources */,
