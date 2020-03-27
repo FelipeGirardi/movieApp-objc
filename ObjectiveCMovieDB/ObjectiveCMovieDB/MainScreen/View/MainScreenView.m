@@ -54,6 +54,8 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [super viewDidLoad];
 
     self->_moviesTableView.delegate = self;
+    self->_moviesTableView.dataSource = self;
+    _moviesTableView.hidden = true;
     _moviesTableView.sectionHeaderHeight = 50;
     _isShowingFooter = false;
     _moviesSearchBar.delegate = self;
@@ -104,7 +106,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_loadingIndicator stopAnimating];
-            self->_moviesTableView.dataSource = self;
             self->_moviesSearchBar.userInteractionEnabled = true;
             self->_isShowingFooter = true;
             [self->_moviesTableView reloadData];
@@ -139,6 +140,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.isUpcomingMoviesRequestComplete = true;
+            self->_moviesTableView.hidden = false;
             [self->_moviesTableView reloadData];
         });
     }];
@@ -155,15 +157,15 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (void) setLoadingIndicator {
     _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
-    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 20);
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 200);
     CGRect loadingFrame = _loadingIndicator.frame;
     loadingFrame.size.width = 35.0f;
     loadingFrame.size.height = 35.0f;
     _loadingIndicator.frame = loadingFrame;
     _loadingIndicator.hidesWhenStopped = true;
     [_loadingIndicator startAnimating];
-    [_moviesTableView addSubview: _loadingIndicator];
-    [_moviesTableView bringSubviewToFront:_loadingIndicator];
+    [self.view addSubview: _loadingIndicator];
+    [self.view bringSubviewToFront:_loadingIndicator];
 }
 
 - (void) downloadPopularMoviesPosters {
@@ -324,15 +326,16 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [sectionView setBackgroundColor: [UIColor whiteColor]];
     
     if (section == 0) {
-        title = @"Upcoming Movies";
+        if(!self.isSearchActive) {
+            title = @"Upcoming Movies";
+        }
+        else {
+            title = @"Search Results";
+        }
     }
     
     if (section == 1) {
-        if(self.isSearchActive == false) {
             title = @"Popular Movies";
-        } else {
-            title = @"Search Results";
-        }
     }
     
     else if (section == 2 && !self.isSearchActive) {
@@ -428,15 +431,18 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
     self.currentSearchMoviesPage = 1;
+    _moviesTableView.hidden = true;
     
     if(![searchText  isEqual: @""]) {
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
+        [self setLoadingIndicator];
         
         [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText didChangeText: true];
         
     } else {
         self.isSearchActive = false;
+        self->_moviesTableView.hidden = false;
         [searchMovies removeAllObjects];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -533,6 +539,8 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         [searchMovies addObjectsFromArray: moviesList];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            self->_moviesTableView.hidden = false;
+            [self->_loadingIndicator stopAnimating];
             [self->_moviesTableView reloadData];
         });
     }];
