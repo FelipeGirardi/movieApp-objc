@@ -409,16 +409,12 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if (indexPath.section != 0) {
-        if (indexPath.section == 1) {
-            if(!self.isSearchActive) {
-                selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
-            }
-            else {
-                selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
-            }
+    if (indexPath.section == 0 && self.isSearchActive) {
+        selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+    }
+    else if (indexPath.section == 1 && !self.isSearchActive) {
+            selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
         }
-        
         else if (indexPath.section == 2) {
             selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
@@ -427,7 +423,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         self.selectedMovieID = [movieIdNumber intValue];
         
         [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
-    }
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
