@@ -28,13 +28,14 @@
 @property(nonatomic) int currentUpcomingMoviesPage;
 @property(nonatomic) NSString* currentSearchTerm;
 @property(nonatomic) UIActivityIndicatorView* loadingIndicator;
+@property(nonatomic) BOOL isLoadingIndicatorActive;
 @property(nonatomic) BOOL isShowingFooter;
 @property(nonatomic) BOOL isUpcomingMoviesRequestComplete;
 
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
 - (void) upcomingMoviesRequest: (int)currentUpcomingMoviesPage;
-- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term;
+- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term didChangeText: (BOOL)didChangeText;
 
 @end
 
@@ -54,9 +55,12 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [super viewDidLoad];
 
     self->_moviesTableView.delegate = self;
+    self->_moviesTableView.dataSource = self;
+    _moviesTableView.hidden = true;
     _moviesTableView.sectionHeaderHeight = 50;
     _isShowingFooter = false;
     _moviesSearchBar.delegate = self;
+    _isLoadingIndicatorActive = false;
     
     [self setNavigationBar];
     [self setLoadingIndicator];
@@ -104,7 +108,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_loadingIndicator stopAnimating];
-            self->_moviesTableView.dataSource = self;
             self->_moviesSearchBar.userInteractionEnabled = true;
             self->_isShowingFooter = true;
             [self->_moviesTableView reloadData];
@@ -139,6 +142,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.isUpcomingMoviesRequestComplete = true;
+            self->_moviesTableView.hidden = false;
             [self->_moviesTableView reloadData];
         });
     }];
@@ -155,15 +159,15 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
 
 - (void) setLoadingIndicator {
     _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
-    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 20);
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 200);
     CGRect loadingFrame = _loadingIndicator.frame;
     loadingFrame.size.width = 35.0f;
     loadingFrame.size.height = 35.0f;
     _loadingIndicator.frame = loadingFrame;
     _loadingIndicator.hidesWhenStopped = true;
     [_loadingIndicator startAnimating];
-    [_moviesTableView addSubview: _loadingIndicator];
-    [_moviesTableView bringSubviewToFront:_loadingIndicator];
+    [self.view addSubview: _loadingIndicator];
+    [self.view bringSubviewToFront:_loadingIndicator];
 }
 
 - (void) downloadPopularMoviesPosters {
@@ -324,15 +328,16 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [sectionView setBackgroundColor: [UIColor whiteColor]];
     
     if (section == 0) {
-        title = @"Upcoming Movies";
+        if(!self.isSearchActive) {
+            title = @"Upcoming Movies";
+        }
+        else {
+            title = @"Search Results";
+        }
     }
     
     if (section == 1) {
-        if(self.isSearchActive == false) {
             title = @"Popular Movies";
-        } else {
-            title = @"Search Results";
-        }
     }
     
     else if (section == 2 && !self.isSearchActive) {
@@ -390,7 +395,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }
     else {
         self.currentSearchMoviesPage += 1;
-        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:self.currentSearchTerm];
+        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:self.currentSearchTerm didChangeText: false];
     }
 }
 
@@ -404,16 +409,12 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     MainScreenMovie *selectedMovie = nil;
     
-    if (indexPath.section != 0) {
-        if (indexPath.section == 1) {
-            if(!self.isSearchActive) {
-                selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
-            }
-            else {
-                selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
-            }
+    if (indexPath.section == 0 && self.isSearchActive) {
+        selectedMovie = [searchMovies objectAtIndex: [indexPath row]];
+    }
+    else if (indexPath.section == 1 && !self.isSearchActive) {
+            selectedMovie = [popularMovies objectAtIndex: [indexPath row]];
         }
-        
         else if (indexPath.section == 2) {
             selectedMovie = [playingNowMovies objectAtIndex: [indexPath row]];
         }
@@ -422,21 +423,26 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         self.selectedMovieID = [movieIdNumber intValue];
         
         [self performSegueWithIdentifier:@"toMovieDetailsScreen" sender:nil];
-    }
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
     self.currentSearchMoviesPage = 1;
+    _moviesTableView.hidden = true;
     
     if(![searchText  isEqual: @""]) {
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
+        if(!self.isLoadingIndicatorActive) {
+            [self setLoadingIndicator];
+            self.isLoadingIndicatorActive = true;
+        }
         
-        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText];
+        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText didChangeText: true];
         
     } else {
         self.isSearchActive = false;
+        self->_moviesTableView.hidden = false;
         [searchMovies removeAllObjects];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -522,12 +528,20 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     return CGSizeMake(122, 240);
 }
 
-- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term {
+- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term didChangeText: (BOOL)didChangeText {
     NSString *searchUrlString = [NSString stringWithFormat: @"%s%@%s%d", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", term, "&page=", searchMoviesPage];
     
     [network getDataFrom:searchUrlString completion:^ (NSMutableArray * moviesList) {
+        
+        if(didChangeText) {
+            [searchMovies removeAllObjects];
+        }
         [searchMovies addObjectsFromArray: moviesList];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
+            self->_moviesTableView.hidden = false;
+            [self->_loadingIndicator stopAnimating];
+            self->_isLoadingIndicatorActive = false;
             [self->_moviesTableView reloadData];
         });
     }];
