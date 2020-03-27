@@ -9,4 +9,6 @@ Features:
 - Pagination
 - Integration with an equivalent app made in Swift
 
-![](MovieAppGIF.gif)
+<p align="center">
+  <img src=![](MovieAppGIF.gif)>
+</p>
