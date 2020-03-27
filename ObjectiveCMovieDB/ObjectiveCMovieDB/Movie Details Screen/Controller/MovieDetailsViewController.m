@@ -36,16 +36,7 @@
     _starImageView.hidden = true;
     _overviewLabel.hidden = true;
     
-    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
-    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 200);
-    CGRect loadingFrame = _loadingIndicator.frame;
-    loadingFrame.size.width = 35.0f;
-    loadingFrame.size.height = 35.0f;
-    _loadingIndicator.frame = loadingFrame;
-    _loadingIndicator.hidesWhenStopped = true;
-    [_loadingIndicator startAnimating];
-    [self.view addSubview: _loadingIndicator];
-    [self.view bringSubviewToFront:_loadingIndicator];
+    [self setLoadingIndicator];
     
     // Call API request for movie details
     [MovieDetailsAPIRequest fetchMovieByID: self.movieId completeBlock:^(QTMovieDetails * movieDetails){
@@ -59,6 +50,19 @@
         });
     }];
     
+}
+
+- (void) setLoadingIndicator {
+    _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    _loadingIndicator.center = CGPointMake(self.view.center.x, self.navigationController.navigationBar.frame.size.height + 200);
+    CGRect loadingFrame = _loadingIndicator.frame;
+    loadingFrame.size.width = 35.0f;
+    loadingFrame.size.height = 35.0f;
+    _loadingIndicator.frame = loadingFrame;
+    _loadingIndicator.hidesWhenStopped = true;
+    [_loadingIndicator startAnimating];
+    [self.view addSubview: _loadingIndicator];
+    [self.view bringSubviewToFront:_loadingIndicator];
 }
 
 - (void) updateMovieDetailsUI: (QTMovieDetails*) movieDetails {
