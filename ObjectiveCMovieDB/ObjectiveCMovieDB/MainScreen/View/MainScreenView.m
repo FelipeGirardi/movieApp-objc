@@ -34,7 +34,7 @@
 - (void) popularMoviesRequest: (int)currentPopularMoviesPage;
 - (void) nowPlayingMoviesRequest: (int)currentNowPlayingMoviesPage;
 - (void) upcomingMoviesRequest: (int)currentUpcomingMoviesPage;
-- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term;
+- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term didChangeText: (BOOL)didChangeText;
 
 @end
 
@@ -390,7 +390,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     }
     else {
         self.currentSearchMoviesPage += 1;
-        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:self.currentSearchTerm];
+        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:self.currentSearchTerm didChangeText: false];
     }
 }
 
@@ -433,7 +433,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
         
-        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText];
+        [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText didChangeText: true];
         
     } else {
         self.isSearchActive = false;
@@ -522,11 +522,16 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     return CGSizeMake(122, 240);
 }
 
-- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term {
+- (void) searchMoviesRequest: (int)searchMoviesPage searchTerm: (NSString*)term didChangeText: (BOOL)didChangeText {
     NSString *searchUrlString = [NSString stringWithFormat: @"%s%@%s%d", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", term, "&page=", searchMoviesPage];
     
     [network getDataFrom:searchUrlString completion:^ (NSMutableArray * moviesList) {
+        
+        if(didChangeText) {
+            [searchMovies removeAllObjects];
+        }
         [searchMovies addObjectsFromArray: moviesList];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
         });
