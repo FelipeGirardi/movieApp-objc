@@ -1,6 +1,6 @@
 # movieApp-objc
 
-![](movieAppGIF.gif)
+![](MovieAppGIF.gif)
 
 A movie app for iOS based on TheMovieDB API, made in Objective-C. It displays upcoming, popular and now playing movies.
 
