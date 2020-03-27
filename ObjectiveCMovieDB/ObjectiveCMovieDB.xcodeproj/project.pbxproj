@@ -11,6 +11,7 @@
 		8006411D2423F27D00805F0F /* MainScreenStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 800641172423F27D00805F0F /* MainScreenStoryboard.storyboard */; };
 		8043B37E242A8ACF00648A15 /* MoviesCollectionViewTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8043B37D242A8ACF00648A15 /* MoviesCollectionViewTableCell.m */; };
 		8065FC1A242A8CC7007C5778 /* MoviesCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */; };
+		8066B482242E4F31008599BA /* ObjectiveCMovieDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8066B481242E4F31008599BA /* ObjectiveCMovieDBTests.m */; };
 		80879F38241FF977006B5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F37241FF977006B5BBD /* AppDelegate.m */; };
 		80879F3B241FF977006B5BBD /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3A241FF977006B5BBD /* SceneDelegate.m */; };
 		80879F3E241FF977006B5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80879F3D241FF977006B5BBD /* ViewController.m */; };
@@ -67,6 +68,16 @@
 		C07F6FC6242D229E00DC8E1E /* ButtonCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07F6FC5242D229E00DC8E1E /* ButtonCollectionCell.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8066B484242E4F31008599BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 80879F2B241FF977006B5BBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80879F32241FF977006B5BBD;
+			remoteInfo = ObjectiveCMovieDB;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		800641102423F27D00805F0F /* MainScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenView.h; sourceTree = "<group>"; };
 		800641122423F27D00805F0F /* MoviesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviesTableCell.h; sourceTree = "<group>"; };
@@ -76,6 +87,9 @@
 		8043B37F242A8AE200648A15 /* MoviesCollectionViewTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionViewTableCell.h; sourceTree = "<group>"; };
 		8065FC19242A8CC7007C5778 /* MoviesCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesCollectionCell.m; sourceTree = "<group>"; };
 		8065FC1B242A8CD2007C5778 /* MoviesCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesCollectionCell.h; sourceTree = "<group>"; };
+		8066B47F242E4F31008599BA /* ObjectiveCMovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectiveCMovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8066B481242E4F31008599BA /* ObjectiveCMovieDBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCMovieDBTests.m; sourceTree = "<group>"; };
+		8066B483242E4F31008599BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectiveCMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80879F36241FF977006B5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		80879F37241FF977006B5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -145,6 +159,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8066B47C242E4F31008599BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80879F30241FF977006B5BBD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -231,11 +252,21 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		8066B480242E4F31008599BA /* ObjectiveCMovieDBTests */ = {
+			isa = PBXGroup;
+			children = (
+				8066B481242E4F31008599BA /* ObjectiveCMovieDBTests.m */,
+				8066B483242E4F31008599BA /* Info.plist */,
+			);
+			path = ObjectiveCMovieDBTests;
+			sourceTree = "<group>";
+		};
 		80879F2A241FF977006B5BBD = {
 			isa = PBXGroup;
 			children = (
 				80879F35241FF977006B5BBD /* ObjectiveCMovieDB */,
 				8096C6BD242526340071940A /* SwiftMovieDB */,
+				8066B480242E4F31008599BA /* ObjectiveCMovieDBTests */,
 				80879F34241FF977006B5BBD /* Products */,
 				800641082423F26600805F0F /* Recovered References */,
 			);
@@ -246,6 +277,7 @@
 			children = (
 				80879F33241FF977006B5BBD /* ObjectiveCMovieDB.app */,
 				8096C6BC242526340071940A /* SwiftMovieDB.app */,
+				8066B47F242E4F31008599BA /* ObjectiveCMovieDBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -422,6 +454,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8066B47E242E4F31008599BA /* ObjectiveCMovieDBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8066B486242E4F31008599BA /* Build configuration list for PBXNativeTarget "ObjectiveCMovieDBTests" */;
+			buildPhases = (
+				8066B47B242E4F31008599BA /* Sources */,
+				8066B47C242E4F31008599BA /* Frameworks */,
+				8066B47D242E4F31008599BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8066B485242E4F31008599BA /* PBXTargetDependency */,
+			);
+			name = ObjectiveCMovieDBTests;
+			productName = ObjectiveCMovieDBTests;
+			productReference = 8066B47F242E4F31008599BA /* ObjectiveCMovieDBTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		80879F32241FF977006B5BBD /* ObjectiveCMovieDB */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80879F4C241FF979006B5BBD /* Build configuration list for PBXNativeTarget "ObjectiveCMovieDB" */;
@@ -466,6 +516,10 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Henrique Figueiredo Conte";
 				TargetAttributes = {
+					8066B47E242E4F31008599BA = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 80879F32241FF977006B5BBD;
+					};
 					80879F32241FF977006B5BBD = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -490,11 +544,19 @@
 			targets = (
 				80879F32241FF977006B5BBD /* ObjectiveCMovieDB */,
 				8096C6BB242526340071940A /* SwiftMovieDB */,
+				8066B47E242E4F31008599BA /* ObjectiveCMovieDBTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8066B47D242E4F31008599BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80879F31241FF977006B5BBD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -520,6 +582,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8066B47B242E4F31008599BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8066B482242E4F31008599BA /* ObjectiveCMovieDBTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80879F2F241FF977006B5BBD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -586,6 +656,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8066B485242E4F31008599BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80879F32241FF977006B5BBD /* ObjectiveCMovieDB */;
+			targetProxy = 8066B484242E4F31008599BA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		80879F3F241FF977006B5BBD /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -622,6 +700,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8066B487242E4F31008599BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4NP5AK64M5;
+				INFOPLIST_FILE = ObjectiveCMovieDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = henriqueConte.ObjectiveCMovieDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ObjectiveCMovieDB.app/ObjectiveCMovieDB";
+			};
+			name = Debug;
+		};
+		8066B488242E4F31008599BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4NP5AK64M5;
+				INFOPLIST_FILE = ObjectiveCMovieDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = henriqueConte.ObjectiveCMovieDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ObjectiveCMovieDB.app/ObjectiveCMovieDB";
+			};
+			name = Release;
+		};
 		80879F4A241FF979006B5BBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -813,6 +929,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8066B486242E4F31008599BA /* Build configuration list for PBXNativeTarget "ObjectiveCMovieDBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8066B487242E4F31008599BA /* Debug */,
+				8066B488242E4F31008599BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		80879F2E241FF977006B5BBD /* Build configuration list for PBXProject "ObjectiveCMovieDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
