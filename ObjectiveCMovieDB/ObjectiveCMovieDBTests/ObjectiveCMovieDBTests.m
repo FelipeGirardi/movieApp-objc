@@ -8,10 +8,13 @@
 
 #import <XCTest/XCTest.h>
 #import "MainScreenNetwork.h"
+#import "MovieDetailsAPIRequest.h"
+
 
 @interface ObjectiveCMovieDBTests : XCTestCase
 
 @property MainScreenNetwork *mainNetwork;
+@property MovieDetailsAPIRequest *movieDetailsNetwork;
 
 @end
 
@@ -42,12 +45,20 @@
     }];
 }
 
+
 - (void) testApiActivity {
     
     [_mainNetwork getDataFrom:@"https://api.themoviedb.org/3/movie/upcoming?api_key=77d63fcdb563d7f208a22cca549b5f3e&language=en-US&page=1" completion: ^(NSMutableArray * moviesList) {
        
         XCTAssertFalse([moviesList count] == 0);
         
+    }];
+}
+
+- (void) testMovieByIDRequest {
+    [MovieDetailsAPIRequest fetchMovieByID: 123 completeBlock:^ (QTMovieDetails * movieDetails){
+    
+        XCTAssertTrue(movieDetails != nil);
     }];
 }
 
