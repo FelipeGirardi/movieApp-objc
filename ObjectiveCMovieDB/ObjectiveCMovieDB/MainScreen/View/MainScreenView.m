@@ -28,6 +28,7 @@
 @property(nonatomic) int currentUpcomingMoviesPage;
 @property(nonatomic) NSString* currentSearchTerm;
 @property(nonatomic) UIActivityIndicatorView* loadingIndicator;
+@property(nonatomic) BOOL isLoadingIndicatorActive;
 @property(nonatomic) BOOL isShowingFooter;
 @property(nonatomic) BOOL isUpcomingMoviesRequestComplete;
 
@@ -59,6 +60,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     _moviesTableView.sectionHeaderHeight = 50;
     _isShowingFooter = false;
     _moviesSearchBar.delegate = self;
+    _isLoadingIndicatorActive = false;
     
     [self setNavigationBar];
     [self setLoadingIndicator];
@@ -436,7 +438,10 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     if(![searchText  isEqual: @""]) {
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
-        [self setLoadingIndicator];
+        if(!self.isLoadingIndicatorActive) {
+            [self setLoadingIndicator];
+            self.isLoadingIndicatorActive = true;
+        }
         
         [self searchMoviesRequest:self.currentSearchMoviesPage searchTerm:searchText didChangeText: true];
         
@@ -541,6 +546,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             self->_moviesTableView.hidden = false;
             [self->_loadingIndicator stopAnimating];
+            self->_isLoadingIndicatorActive = false;
             [self->_moviesTableView reloadData];
         });
     }];
