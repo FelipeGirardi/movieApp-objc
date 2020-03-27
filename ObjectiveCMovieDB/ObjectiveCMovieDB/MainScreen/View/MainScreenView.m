@@ -429,10 +429,12 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     
     self.currentSearchMoviesPage = 1;
     _moviesTableView.hidden = true;
+    [searchMovies removeAllObjects];
     
     if(![searchText  isEqual: @""]) {
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
+        
         if(!self.isLoadingIndicatorActive) {
             [self setLoadingIndicator];
             self.isLoadingIndicatorActive = true;
@@ -443,7 +445,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     } else {
         self.isSearchActive = false;
         self->_moviesTableView.hidden = false;
-        [searchMovies removeAllObjects];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->_moviesTableView reloadData];
@@ -532,10 +533,6 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     NSString *searchUrlString = [NSString stringWithFormat: @"%s%@%s%d", "https://api.themoviedb.org/3/search/movie?api_key=fb61737ab2cdee1c07a947778f249e7d&query=", term, "&page=", searchMoviesPage];
     
     [network getDataFrom:searchUrlString completion:^ (NSMutableArray * moviesList) {
-        
-        if(didChangeText) {
-            [searchMovies removeAllObjects];
-        }
         [searchMovies addObjectsFromArray: moviesList];
         
         dispatch_async(dispatch_get_main_queue(), ^{
