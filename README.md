@@ -1,5 +1,10 @@
 # movieApp-objc
 
+<p align="center"> 
+<img src="MovieDB_Logo.png">
+</p>
+
+
 A movie app for iOS based on TheMovieDB API, made in Objective-C. It displays upcoming, popular and now playing movies.
 
 Features:
@@ -11,6 +16,8 @@ Features:
 
 Created by Felipe Girardi (@FelipeGirardi) and Henrique Conte (@henriqueconte).
 
+<p align="center"> 
+<img src="MovieAppGIF.gif">
+</p>
 
-![](MovieAppGIF.gif)
 
