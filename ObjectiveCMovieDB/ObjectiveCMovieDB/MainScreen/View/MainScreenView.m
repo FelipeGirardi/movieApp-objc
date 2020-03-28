@@ -432,6 +432,7 @@ NSMutableArray<MainScreenMovie*> *searchMovies = nil;
     [searchMovies removeAllObjects];
     
     if(![searchText  isEqual: @""]) {
+        [network cancelDataTasks];
         self.isSearchActive = true;
         self.currentSearchTerm = searchText;
         

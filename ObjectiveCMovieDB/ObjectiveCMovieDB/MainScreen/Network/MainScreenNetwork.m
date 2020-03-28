@@ -13,6 +13,8 @@
 
 @interface MainScreenNetwork ()
 
+@property(nonatomic) NSURLSession *session;
+
 @end
 
 @implementation MainScreenNetwork
@@ -40,9 +42,9 @@
     [request setHTTPMethod:@"GET"];
     [request setURL: [NSURL URLWithString: url]];
     
-    NSURLSession *session = [NSURLSession sharedSession];
+    _session = [NSURLSession sharedSession];
     
-    [[session dataTaskWithRequest:request completionHandler: ^(NSData *data,
+    [[_session dataTaskWithRequest:request completionHandler: ^(NSData *data,
                                                               NSURLResponse *response,
                                                               NSError * error) {
         if (error == nil) {
@@ -75,6 +77,16 @@
     NSData *posterImageData = [[NSData alloc] initWithContentsOfURL: url];
     
     callback(posterImageData);
+}
+
+- (void) cancelDataTasks {
+    [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+
+        for (NSURLSessionTask *_task in dataTasks)
+        {
+            [_task cancel];
+        }
+    }];
 }
 
 @end
