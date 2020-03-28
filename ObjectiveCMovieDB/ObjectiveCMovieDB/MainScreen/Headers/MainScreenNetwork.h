@@ -22,4 +22,6 @@
 
 - (id) initNetwork;
 
+- (void) cancelDataTasks;
+
 @end
